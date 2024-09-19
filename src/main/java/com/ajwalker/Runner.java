@@ -17,20 +17,19 @@ import java.time.LocalDate;
 public class Runner {
     public static void main(String[] args) {
         HibernateConnection.beginConnection();
-//        LeagueRepository leagueRepository = new LeagueRepository();
-        SeasonRepository seasonRepository = new SeasonRepository();
+
         LeagueService leagueService = new LeagueService();
         
         
         
-        Season season = Season.builder().BEGINNING_OF_SEASON(LocalDate.of(2024,8,10)).build();
-         seasonRepository.save(season);
-        
-        League league = League.builder().region(ERegion.ENGLAND).season(season).build();
-        leagueService.save(league);
-
-        //leagueRepository.softDeleteByID(1L);
-        
+//        Season season = Season.builder().BEGINNING_OF_SEASON(LocalDate.of(2024,8,10)).build();
+//        // seasonRepository.save(season);
+//
+//        League league = League.builder().region(ERegion.ENGLAND).season(season).build();
+//        leagueService.save(league);
+//
+//        //leagueRepository.softDeleteByID(1L);
+//
         HibernateConnection.em.getTransaction().commit();
         
         HibernateConnection.connectionClose();
