@@ -33,4 +33,18 @@ public static void beginConnection(){
 			
 		}
 	}
+	
+	
+	public static void em_commit(){
+		try{
+		
+			em.getTransaction().commit();
+			
+			
+		}
+		catch(RuntimeException e){
+			System.err.println("Exception in commit "+ e.getMessage());
+			
+		}
+	}
 }

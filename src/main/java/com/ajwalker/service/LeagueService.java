@@ -5,14 +5,13 @@ import com.ajwalker.repository.ICRUD;
 import com.ajwalker.repository.LeagueRepository;
 
 public class LeagueService extends ServiceManager<League,Long> {
-	private final LeagueRepository leagueRepository;
-	
 	public LeagueService() {
-		this(new LeagueRepository());
+		super(LeagueRepository.getInstance());
+		
 	}
 	
-	public LeagueService(LeagueRepository leagueRepository) {
-		super(leagueRepository);
-		this.leagueRepository = leagueRepository;
-	}
+//	public LeagueService(LeagueRepository leagueRepository) {
+//		super(leagueRepository);
+//		this.leagueRepository = leagueRepository;
+//	}
 }
