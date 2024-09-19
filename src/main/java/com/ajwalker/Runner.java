@@ -8,6 +8,6 @@ public class Runner {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Futbol_ManagerV2");
         
-        System.out.println("Merhaba Dünya");
+        System.out.println("Merhaba Dünya, Alex");
     }
 }
