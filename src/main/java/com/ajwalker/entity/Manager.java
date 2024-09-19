@@ -18,5 +18,7 @@ public class Manager extends Person {
     private String username;
     private String password;
     private Integer experience; //between 1-100
-    private Integer teamId;
+
+    @OneToOne
+    private Team team;
 }
