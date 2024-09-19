@@ -28,6 +28,12 @@ public abstract class ServiceManager<T, ID> implements ICRUDService<T, ID> {
 	}
 	
 	@Override
+	public Boolean softDeleteByID(ID id) {
+		return repository.softDeleteByID(id);
+	}
+	
+	
+	@Override
 	public Optional<T> findById(ID id) {
 		return repository.findById(id);
 	}
