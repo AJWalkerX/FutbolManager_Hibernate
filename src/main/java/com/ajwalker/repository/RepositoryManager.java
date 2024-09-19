@@ -30,6 +30,7 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         return emf.createEntityManager();
     }
 
+    //? Update methodu save üzerinden yapılabilir mi ?
     @Override
     public T save(T entity) {
         EntityManager em = getEntityManager();
@@ -102,8 +103,8 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
             em.close();
         }
     }
-    //TODO UPDATE METODU EKLENECEK
 
+    @Override
     public Boolean softDeleteByID(ID id) {
         EntityManager em = getEntityManager();
         EntityTransaction tx = null;

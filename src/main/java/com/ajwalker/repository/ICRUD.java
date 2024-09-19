@@ -9,6 +9,8 @@ public interface ICRUD <T,ID>{
 
     Boolean deleteById(ID id);
 
+    Boolean softDeleteByID(ID id);
+
     Optional<T> findById(ID id);
 
     Boolean existById(ID id);
