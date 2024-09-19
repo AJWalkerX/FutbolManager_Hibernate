@@ -35,7 +35,7 @@
             <property name="hibernate.use_sql_comments" value="false"/>
 
             <property name="hibernate.hbm2ddl.auto"
-                      value="update" />
+                      value="create" />
         </properties>
 
     </persistence-unit>
