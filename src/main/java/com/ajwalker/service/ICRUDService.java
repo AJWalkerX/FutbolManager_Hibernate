@@ -12,5 +12,5 @@ public interface ICRUDService <T,ID>{
 	List<T> findAll();
 	List<T> findByFieldNameAndValue(String fieldName, Object value);
 	List<T> findByFilledFields(T entity);
-	//
+	
 }

@@ -5,7 +5,7 @@ import com.ajwalker.repository.ICRUD;
 import com.ajwalker.repository.LeagueRepository;
 
 public class LeagueService extends ServiceManager<League,Long> {
-	private final LeagueRepository leagueRepository;//
+	private final LeagueRepository leagueRepository;
 	
 	public LeagueService() {
 		this(new LeagueRepository());

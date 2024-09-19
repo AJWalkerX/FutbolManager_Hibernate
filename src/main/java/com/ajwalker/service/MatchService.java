@@ -6,5 +6,5 @@ import com.ajwalker.repository.ICRUD;
 public class MatchService extends ServiceManager<Match,Long> {
 	public MatchService(ICRUD<Match, Long> repository) {
 		super(repository);
-	}//
+	}
 }

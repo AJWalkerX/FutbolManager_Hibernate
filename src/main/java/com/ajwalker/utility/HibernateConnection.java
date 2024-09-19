@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class HibernateConnection {//
+public class HibernateConnection {
 	static EntityManagerFactory emf = Persistence.createEntityManagerFactory("Futbol_ManagerV2");
 	public static  EntityManager em = emf.createEntityManager();
 	
