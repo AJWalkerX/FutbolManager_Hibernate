@@ -1,5 +1,6 @@
 package com.ajwalker.entity;
 
+import com.ajwalker.utility.enums.EState;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @MappedSuperclass
 public class BaseEntity {
 
-    private int state;
+    private EState state;
     private LocalDate createAt;
     private LocalDate updateAt;
 

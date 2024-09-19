@@ -19,9 +19,11 @@ public class Team  extends BaseEntity{
     private Long budget;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Stadium stadium;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private League league;
 
 

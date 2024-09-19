@@ -23,5 +23,6 @@ public class Player extends Person {
     private Long value; //degeri
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Team team;
 }
