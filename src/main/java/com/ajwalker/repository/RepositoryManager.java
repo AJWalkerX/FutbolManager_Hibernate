@@ -30,7 +30,6 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         return emf.createEntityManager();
     }
 
-    //? Update methodu save üzerinden yapılabilir mi ?
     @Override
     public T save(T entity) {
         EntityManager em = getEntityManager();
@@ -76,6 +75,7 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         }
         return entities;
     }
+    //TODO: update ve updateAll methodlarını da ekle
 
     @Override
     public Boolean deleteById(ID id) {
@@ -136,6 +136,9 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         EntityManager em = getEntityManager();
         try {
             T entity = em.find(entityClass, id);
+            if (entity.getState().equals(EState.PASSIVE)) {
+                return Optional.empty();
+            }
             return Optional.ofNullable(entity);
         } finally {
             em.close();
@@ -153,7 +156,8 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(entityClass);
-            cq.select(cq.from(entityClass));
+            Root<T> root = cq.from(entityClass);
+            cq.select(root).where(cb.equal(root.get("state"), EState.ACTIVE));
             return em.createQuery(cq).getResultList();
         } finally {
             em.close();
@@ -167,7 +171,9 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(entityClass);
             Root<T> root = cq.from(entityClass);
-            cq.select(root).where(cb.equal(root.get(fieldName), value));
+            cq.select(root).where(cb.and(
+                    cb.equal(root.get(fieldName), value),
+                    cb.equal(root.get("state"), EState.ACTIVE)));
             return em.createQuery(cq).getResultList();
         } finally {
             em.close();
@@ -187,7 +193,9 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
                 try {
                     Object value = field.get(entity);
                     if (value != null) {
-                        predicates.add(cb.equal(root.get(field.getName()), value));
+                        predicates.add(cb.and(
+                                cb.equal(root.get(field.getName()), value),
+                                cb.equal(root.get("state"), EState.ACTIVE)));
                     }
                 } catch (Exception e) {
                     System.err.println("findByFilledFields metodunda hata meydana geldi..." + e.getMessage());
