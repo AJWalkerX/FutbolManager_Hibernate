@@ -6,6 +6,7 @@ import com.ajwalker.entity.Season;
 import com.ajwalker.repository.LeagueRepository;
 import com.ajwalker.repository.RepositoryManager;
 import com.ajwalker.repository.SeasonRepository;
+import com.ajwalker.utility.HibernateConnection;
 import com.ajwalker.utility.enums.ERegion;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 public class Runner {
     public static void main(String[] args) {
        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Futbol_ManagerV2");
-        
+        HibernateConnection.beginConnection();
         LeagueRepository leagueRepository = new LeagueRepository();
         SeasonRepository seasonRepository = new SeasonRepository();
         
@@ -28,5 +29,7 @@ public class Runner {
         leagueRepository.save(league);
 
         leagueRepository.softDeleteByID(1L);
+        
+        
     }
 }

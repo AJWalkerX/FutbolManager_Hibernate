@@ -6,5 +6,6 @@ import com.ajwalker.repository.ICRUD;
 public class PlayerService extends ServiceManager<Player,Long>{
 	public PlayerService(ICRUD<Player, Long> repository) {
 		super(repository);
+		//
 	}
 }

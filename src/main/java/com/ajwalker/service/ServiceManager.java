@@ -5,7 +5,7 @@ import com.ajwalker.repository.ICRUD;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ServiceManager<T, ID> implements ICRUDService<T, ID> {
+public abstract class ServiceManager<T, ID> implements ICRUDService<T, ID> {//
 	private final ICRUD<T, ID> repository;
 	
 	public ServiceManager(ICRUD<T, ID> repository) {
