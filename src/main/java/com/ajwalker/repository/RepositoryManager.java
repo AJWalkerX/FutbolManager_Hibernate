@@ -76,6 +76,8 @@ public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID>
         }
         return entities;
     }
+    
+    
 
     @Override
     public Boolean deleteById(ID id) {
