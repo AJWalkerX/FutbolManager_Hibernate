@@ -5,7 +5,7 @@ import com.ajwalker.entity.Fixture;
 public class FixtureRepository extends RepositoryManager<Fixture,Long>{
 	private static FixtureRepository instance;
 	
-	public FixtureRepository() {
+	private FixtureRepository() {
 		super(Fixture.class);
 	}
 	public static FixtureRepository getInstance() {

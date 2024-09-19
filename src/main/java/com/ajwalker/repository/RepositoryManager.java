@@ -1,27 +1,19 @@
 package com.ajwalker.repository;
 
 import com.ajwalker.entity.BaseEntity;
-
 import static com.ajwalker.utility.HibernateConnection.*;
-
-import com.ajwalker.utility.HibernateConnection;
 import com.ajwalker.utility.enums.EState;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID> {
+public abstract class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID> {
 	
 	protected   Class<T> entityClass;
 	

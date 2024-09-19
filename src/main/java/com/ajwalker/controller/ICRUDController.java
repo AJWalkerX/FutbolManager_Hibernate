@@ -1,9 +1,9 @@
-package com.ajwalker.service;
+package com.ajwalker.controller;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ICRUDService <T,ID>{
+public interface ICRUDController<T,ID> {
 	T save(T entity);
 	Iterable<T> saveAll(Iterable<T> entities);
 	Boolean deleteById(ID id);
@@ -13,5 +13,4 @@ public interface ICRUDService <T,ID>{
 	List<T> findAll();
 	List<T> findByFieldNameAndValue(String fieldName, Object value);
 	List<T> findByFilledFields(T entity);
-	
 }

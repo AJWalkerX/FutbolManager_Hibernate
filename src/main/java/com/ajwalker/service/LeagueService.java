@@ -1,11 +1,12 @@
 package com.ajwalker.service;
 
 import com.ajwalker.entity.League;
-import com.ajwalker.repository.ICRUD;
 import com.ajwalker.repository.LeagueRepository;
 
 public class LeagueService extends ServiceManager<League,Long> {
-	public LeagueService() {
+	
+	private static LeagueService instance;
+	private LeagueService() {
 		super(LeagueRepository.getInstance());
 		
 	}
@@ -14,4 +15,10 @@ public class LeagueService extends ServiceManager<League,Long> {
 //		super(leagueRepository);
 //		this.leagueRepository = leagueRepository;
 //	}
+	public static LeagueService getInstance() {
+		if (instance == null) {
+			instance = new LeagueService();
+		}
+		return instance;
+	}
 }
