@@ -44,7 +44,7 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
-            System.out.println("Save metodunda hata..." + e.getMessage());
+            System.err.println("Save metodunda hata..." + e.getMessage());
         } finally {
             em.close();
         }
@@ -71,7 +71,7 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
-            System.out.println("SaveAll metodunda hata..." + e.getMessage());
+            System.err.println("SaveAll metodunda hata..." + e.getMessage());
         } finally {
             em.close();
         }
@@ -98,7 +98,7 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
-            System.out.println("DeleteById metodunda hata..." + e.getMessage());
+            System.err.println("DeleteById metodunda hata..." + e.getMessage());
             return false;
         } finally {
             em.close();
@@ -166,7 +166,7 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
                         predicates.add(cb.equal(root.get(field.getName()), value));
                     }
                 } catch (Exception e) {
-                    System.out.println("findByFilledFields metodunda hata meydana geldi..." + e.getMessage());
+                    System.err.println("findByFilledFields metodunda hata meydana geldi..." + e.getMessage());
                 }
             }
             cq.where(predicates.toArray(new Predicate[0]));
