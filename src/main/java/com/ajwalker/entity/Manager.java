@@ -20,5 +20,6 @@ public class Manager extends Person {
     private Integer experience; //between 1-100
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Team team;
 }

@@ -27,5 +27,6 @@ public class League extends BaseEntity {
     private EDivision division;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Season season;
 }

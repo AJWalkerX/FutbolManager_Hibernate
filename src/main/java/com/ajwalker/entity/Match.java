@@ -27,6 +27,8 @@ public class Match extends BaseEntity {
     private int homeTeamScore;
     private int awayTeamScore;
     private LocalDate matchDate;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Fixture fixture;
 }

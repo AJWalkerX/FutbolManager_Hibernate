@@ -1,5 +1,7 @@
 package com.ajwalker.repository;
 
+import com.ajwalker.entity.BaseEntity;
+import com.ajwalker.utility.enums.EState;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -10,11 +12,12 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
+public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> {
     protected final EntityManagerFactory emf;
     protected final Class<T> entityClass;
 
@@ -34,6 +37,7 @@ public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
         try {
             tx = em.getTransaction();
             tx.begin();
+            setDefaultValues(entity);
             em.persist(entity);
             tx.commit();
         } catch (RuntimeException e) {
@@ -44,10 +48,13 @@ public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
         } finally {
             em.close();
         }
+        
         return entity;
     }
-
-
+    
+  
+    
+    
     @Override
     public Iterable<T> saveAll(Iterable<T> entities) {
         EntityManager em = getEntityManager();
@@ -56,6 +63,7 @@ public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
             tx = em.getTransaction();
             tx.begin();
             for (T entity : entities) {
+                setDefaultValues(entity);
                 em.persist(entity);
             }
             tx.commit();
@@ -96,6 +104,8 @@ public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
             em.close();
         }
     }
+    //TODO SOFT DELETE EKLENECEK
+    //TODO UPDATE METODU EKLENECEK
 
     @Override
     public Optional<T> findById(ID id) {
@@ -164,5 +174,10 @@ public class RepositoryManager<T,ID> implements ICRUD<T, ID> {
         } finally {
             em.close();
         }
+    }
+    private static <T extends BaseEntity> void setDefaultValues(T entity) {
+        entity.setState(EState.ACTIVE);
+        entity.setCreateAt(LocalDate.now());
+        entity.setUpdateAt(LocalDate.now());
     }
 }
