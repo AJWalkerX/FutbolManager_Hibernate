@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "tblmanager")
-public class Manager {
+public class Manager extends Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +20,4 @@ public class Manager {
     private String password;
     private Integer experience; //between 1-100
     private Integer teamId;
-
-    @Embedded
-    private BaseEntity baseEntity;
-
-    @Embedded
-    private Person person;
 }

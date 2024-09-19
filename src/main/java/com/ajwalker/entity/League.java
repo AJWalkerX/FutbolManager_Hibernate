@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "tblleague")
-public class League {
+public class League extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

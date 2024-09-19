@@ -9,6 +9,7 @@
         <class>com.ajwalker.entity.Season</class>
         <class>com.ajwalker.entity.League</class>
         <class>com.ajwalker.entity.Manager</class>
+        <class>com.ajwalker.entity.Player</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"
