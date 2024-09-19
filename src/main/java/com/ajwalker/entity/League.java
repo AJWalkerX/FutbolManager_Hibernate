@@ -31,5 +31,5 @@ public class League {
 
     @ManyToOne
     private Season season;
-
+    private String deneme;
 }
