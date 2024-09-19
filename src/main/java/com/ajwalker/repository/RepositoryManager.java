@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> {
+public class RepositoryManager<T extends BaseEntity, ID> implements ICRUD<T, ID> {
     protected final EntityManagerFactory emf;
     protected final Class<T> entityClass;
 
@@ -48,13 +48,11 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
         } finally {
             em.close();
         }
-        
+
         return entity;
     }
-    
-  
-    
-    
+
+
     @Override
     public Iterable<T> saveAll(Iterable<T> entities) {
         EntityManager em = getEntityManager();
@@ -104,8 +102,33 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
             em.close();
         }
     }
-    //TODO SOFT DELETE EKLENECEK
     //TODO UPDATE METODU EKLENECEK
+
+    public Boolean softDeleteByID(ID id) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+            T entity = em.find(entityClass, id);
+            if (entity != null) {
+                entity.setState(EState.PASSIVE);
+                tx.commit();
+                return true;
+            } else {
+                tx.commit();
+                return false;
+            }
+        } catch (RuntimeException e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            System.err.println("SoftDeleteByID metodunda hata..." + e.getMessage());
+            return false;
+        } finally {
+            em.close();
+        }
+    }
 
     @Override
     public Optional<T> findById(ID id) {
@@ -175,6 +198,7 @@ public class RepositoryManager<T extends BaseEntity,ID> implements ICRUD<T, ID> 
             em.close();
         }
     }
+
     private static <T extends BaseEntity> void setDefaultValues(T entity) {
         entity.setState(EState.ACTIVE);
         entity.setCreateAt(LocalDate.now());

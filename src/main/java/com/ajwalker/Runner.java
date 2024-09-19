@@ -26,5 +26,7 @@ public class Runner {
         
         League league = League.builder().region(ERegion.ENGLAND).season(season).build();
         leagueRepository.save(league);
+
+        leagueRepository.softDeleteByID(1L);
     }
 }
