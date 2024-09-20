@@ -4,7 +4,7 @@ import com.ajwalker.service.ICRUDService;
 import java.util.List;
 import java.util.Optional;
 
-public abstract  class ControllerManager<T,ID> implements ICRUDController<T,ID> {
+public abstract class ControllerManager<T,ID> implements ICRUDController<T,ID> {
 	private final ICRUDService<T, ID> service;
 	
 	public ControllerManager(ICRUDService<T, ID> service) {
@@ -20,7 +20,17 @@ public abstract  class ControllerManager<T,ID> implements ICRUDController<T,ID> 
 	public Iterable<T> saveAll(Iterable<T> entities) {
 		return service.saveAll(entities);
 	}
-	
+
+	@Override
+	public Boolean update(T entity) {
+		return service.update(entity);
+	}
+
+	@Override
+	public Boolean updateAll(Iterable<T> entities) {
+		return service.updateAll(entities);
+	}
+
 	@Override
 	public Boolean deleteById(ID id) {
 		return service.deleteById(id);

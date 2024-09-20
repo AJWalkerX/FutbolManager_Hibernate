@@ -4,6 +4,7 @@ import com.ajwalker.utility.enums.EState;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -14,10 +15,11 @@ import java.time.LocalDate;
 @SuperBuilder
 @Data
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
+    @Builder.Default
+    private EState state = EState.ACTIVE;
+    private LocalDate createAt = LocalDate.now();
+    private LocalDate updateAt = LocalDate.now();
 
-    private EState state;
-    private LocalDate createAt;
-    private LocalDate updateAt;
 
 }
