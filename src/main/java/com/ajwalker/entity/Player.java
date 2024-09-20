@@ -21,8 +21,10 @@ public class Player extends Person {
     private EPosition position;
     private Integer skillLevel; //1-100 arasi olacak.
     private Long value; //degeri
+    private Integer age;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Team team;
+
 }

@@ -6,6 +6,8 @@ import java.util.Optional;
 public interface ICRUDController<T,ID> {
 	T save(T entity);
 	Iterable<T> saveAll(Iterable<T> entities);
+	Boolean update(T entity);
+	Boolean updateAll(Iterable<T> entities);
 	Boolean deleteById(ID id);
 	Boolean softDeleteByID(ID id);
 	Optional<T> findById(ID id);

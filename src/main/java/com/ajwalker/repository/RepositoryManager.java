@@ -26,7 +26,7 @@ public abstract class RepositoryManager<T extends BaseEntity, ID> implements ICR
 		try {
 			setDefaultValues(entity);
 			em.persist(entity);
-//			em_commit();
+
 		}
 		catch (RuntimeException e) {
 			System.err.println("Save metodunda hata..." + e.getMessage());
@@ -42,22 +42,50 @@ public abstract class RepositoryManager<T extends BaseEntity, ID> implements ICR
 				setDefaultValues(entity);
 				em.persist(entity);
 			}
-//			em_commit();
+
 		}
 		catch (RuntimeException e) {
 			System.err.println("SaveAll metodunda hata..." + e.getMessage());
 		}
 		return entities;
 	}
-	//TODO: update ve updateAll methodlarını da ekle
-	
+
+	@Override
+	public Boolean update(T entity) {
+		try {
+			entity.setUpdateAt(LocalDate.now());
+			em.merge(entity);
+			return true;
+
+		}
+		catch (RuntimeException e) {
+			System.err.println("Save metodunda hata..." + e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean updateAll(Iterable<T> entities) {
+		try {
+			for (T entity : entities) {
+				entity.setUpdateAt(LocalDate.now());
+				em.merge(entity);
+			}
+			return true;
+		}
+		catch (RuntimeException e) {
+			System.err.println("SaveAll metodunda hata..." + e.getMessage());
+			return false;
+		}
+	}
+
+
 	@Override
 	public Boolean deleteById(ID id) {
 		try {
 			T entityToRemove = em.find(entityClass, id);
 			if (entityToRemove != null) {
 				em.remove(entityToRemove);
-				em_commit();
 				return true;
 			}
 		}
@@ -76,7 +104,6 @@ public abstract class RepositoryManager<T extends BaseEntity, ID> implements ICR
 			T entity = em.find(entityClass, id);
 			if (entity != null) {
 				entity.setState(EState.PASSIVE);
-				em_commit();
 				return true;
 			}
 		}
@@ -172,7 +199,6 @@ public abstract class RepositoryManager<T extends BaseEntity, ID> implements ICR
 	}
 	
 	private static <T extends BaseEntity> void setDefaultValues(T entity) {
-		entity.setState(EState.ACTIVE);
 		entity.setCreateAt(LocalDate.now());
 		entity.setUpdateAt(LocalDate.now());
 	}

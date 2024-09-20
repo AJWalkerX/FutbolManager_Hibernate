@@ -5,7 +5,12 @@ import java.util.Optional;
 
 public interface ICRUD <T,ID>{
     T save(T entity);
+
     Iterable<T> saveAll(Iterable<T> entities);
+
+    Boolean update(T entity);
+
+    Boolean updateAll(Iterable<T> entities);
 
     Boolean deleteById(ID id);
 

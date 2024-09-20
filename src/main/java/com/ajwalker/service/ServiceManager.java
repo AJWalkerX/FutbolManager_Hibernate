@@ -1,11 +1,12 @@
 package com.ajwalker.service;
 
+import com.ajwalker.entity.BaseEntity;
 import com.ajwalker.repository.ICRUD;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ServiceManager<T, ID> implements ICRUDService<T, ID> {
+public abstract class ServiceManager<T extends BaseEntity, ID> implements ICRUDService<T, ID> {
 	private final ICRUD<T, ID> repository;
 	
 	public ServiceManager(ICRUD<T, ID> repository) {
@@ -21,7 +22,17 @@ public abstract class ServiceManager<T, ID> implements ICRUDService<T, ID> {
 	public Iterable<T> saveAll(Iterable<T> entities) {
 		return repository.saveAll(entities);
 	}
-	
+
+	@Override
+	public Boolean update(T entity) {
+		return repository.update(entity);
+	}
+
+	@Override
+	public Boolean updateAll(Iterable<T> entities) {
+		return repository.updateAll(entities);
+	}
+
 	@Override
 	public Boolean deleteById(ID id) {
 		return repository.deleteById(id);

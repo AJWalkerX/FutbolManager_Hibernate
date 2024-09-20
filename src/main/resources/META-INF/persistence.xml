@@ -15,6 +15,7 @@
         <class>com.ajwalker.entity.Team</class>
         <class>com.ajwalker.entity.Fixture</class>
 
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver"
                       value="org.postgresql.Driver" />
