@@ -23,13 +23,14 @@ public class Match extends BaseEntity {
 
     @Transient
     static Integer matchIdCounter = 0;
-    private Integer homeTeamId;
-    private Integer awayTeamId;
+    private Long homeTeamId;
+    private Long awayTeamId;
+
     private int homeTeamScore;
     private int awayTeamScore;
+
     private LocalDate matchDate;
     
     @ManyToOne
-    @JoinColumn(nullable = false)
     private Fixture fixture;
 }
