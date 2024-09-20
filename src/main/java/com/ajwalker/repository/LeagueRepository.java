@@ -1,6 +1,10 @@
 package com.ajwalker.repository;
 
 import com.ajwalker.entity.League;
+import com.ajwalker.entity.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeagueRepository extends RepositoryManager<League,Long>{
 	private static LeagueRepository instance;
@@ -14,4 +18,17 @@ public class LeagueRepository extends RepositoryManager<League,Long>{
 		}
 		return instance;
 	}
+
+	public List<Long> getTeamIds(Long leagueId){
+		TeamRepository teamRepository = TeamRepository.getInstance();
+		List<Team> teamList = teamRepository.findAll();
+		List<Long> teamIds = new ArrayList<>();
+		for (Team team : teamList) {
+			if(team.getLeague().getId().equals(leagueId)){
+				teamIds.add(team.getId());
+			}
+		}
+		return teamIds;
+	}
+
 }
