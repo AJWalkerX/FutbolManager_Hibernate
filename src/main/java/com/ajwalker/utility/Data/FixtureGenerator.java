@@ -14,13 +14,14 @@ import java.util.Map;
 public class FixtureGenerator {
 
     //maçlar için 3 ayrı metod
-    public static void generateMatchesAndFixture(DatabaseModel databaseModel,League league){
-        int teamNums = league.getTeamIdList().size();
+    public static void generateMatchesAndFixture(League league){
+        LeagueRepository leagueRepository = LeagueRepository.getInstance();
+        int teamNums = leagueRepository.getTeamIds(league.getId()).size();
         int matchesPerWeek = teamNums/2;
 
         List<Integer[]> fixtureListWithID = generateFixtureList(teamNums);
 
-        List<Match> matches = setIDToMatches(databaseModel, fixtureListWithID, league);//Mac nesnesi yarattigimiz yer.
+        List<Match> matches = setIDToMatches(fixtureListWithID, league);//Mac nesnesi yarattigimiz yer.
 
         setDatestoMatches(league, matches);
 
