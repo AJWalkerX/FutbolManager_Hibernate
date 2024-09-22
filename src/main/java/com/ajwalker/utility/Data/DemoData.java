@@ -26,6 +26,7 @@ public class DemoData {
         createTeams();
         createPlayers();
         createManagers();
+        FixtureGenerator.createFixture();
 
     }
 
@@ -207,8 +208,6 @@ public class DemoData {
         manager11,manager12,manager13,manager14,manager15,manager16,manager17,manager18,manager19));
         ManagerRepository.getInstance().saveAll(managerList);
     }
-
-
 
 
 
