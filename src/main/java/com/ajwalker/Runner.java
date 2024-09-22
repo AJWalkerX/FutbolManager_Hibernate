@@ -5,6 +5,7 @@ import com.ajwalker.controller.SeasonController;
 import com.ajwalker.entity.Fixture;
 import com.ajwalker.entity.League;
 import com.ajwalker.entity.Season;
+import com.ajwalker.gui.MainMenu;
 import com.ajwalker.utility.Data.DemoData;
 import com.ajwalker.utility.Data.FixtureGenerator;
 import com.ajwalker.utility.HibernateConnection;
@@ -19,6 +20,8 @@ public class Runner {
 
         DemoData.GenerateDemonData();
         welcomeMassege();
+        MainMenu mainMenu = MainMenu.getInstance();
+        mainMenu.mainMenu();
         HibernateConnection.em.getTransaction().commit();
         
         HibernateConnection.connectionClose();
