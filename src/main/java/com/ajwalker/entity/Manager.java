@@ -18,9 +18,8 @@ public class Manager extends Person {
     @Column(unique = true)
     private String username;
     private String password;
-    private Integer experience; //between 1-100
+    private Integer experience; //between 1-10
 
     @OneToOne
-    @JoinColumn(nullable = false)
     private Team team;
 }

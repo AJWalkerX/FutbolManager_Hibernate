@@ -1,5 +1,7 @@
 package com.ajwalker.controller;
 
+import com.ajwalker.dto.request.ManagerSaveRequestDTO;
+import com.ajwalker.dto.response.ManagerResponseDTO;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.service.ManagerService;
 
@@ -27,4 +29,33 @@ public class ManagerController extends ControllerManager<Manager,Long>{
 			return Optional.empty();
 		}
     }
+
+	public boolean checkUsername(String username) {
+		try {
+			return managerService.checkUsername(username);
+
+		}catch (Exception e) {
+			System.out.println("Controller Error: "+ e.getMessage());
+			return false;
+		}
+	}
+
+	public boolean checkPassword(String password, String repeatPassword) {
+		try {
+			return managerService.checkPassword(password, repeatPassword);
+
+		}catch (Exception e) {
+			System.out.println("Controller Error: "+ e.getMessage());
+			return false;
+		}
+	}
+
+	public Optional<ManagerResponseDTO> saveDTO(ManagerSaveRequestDTO saveRequestDTO) {
+		try {
+			return managerService.saveDTO(saveRequestDTO);
+		}catch (Exception e) {
+			System.out.println("Controller Error: "+ e.getMessage());
+			return Optional.empty();
+		}
+	}
 }

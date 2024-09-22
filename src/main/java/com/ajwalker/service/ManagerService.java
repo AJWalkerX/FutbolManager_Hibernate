@@ -1,9 +1,12 @@
 package com.ajwalker.service;
 
+import com.ajwalker.dto.request.ManagerSaveRequestDTO;
+import com.ajwalker.dto.response.ManagerResponseDTO;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.repository.ManagerRepository;
 import com.ajwalker.utility.ConsoleTextUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ManagerService extends ServiceManager<Manager,Long>{
@@ -32,5 +35,29 @@ public class ManagerService extends ServiceManager<Manager,Long>{
 			System.out.println("Service Error: " + e.getMessage());
 			return Optional.empty();
 		}
+	}
+
+	public boolean checkUsername(String username) {
+		List<Manager> usernameList = managerRepository.findByFieldNameAndValue("username", username);
+		if (!usernameList.isEmpty()) {
+			ConsoleTextUtils.printErrorMessage("Username already exists!");
+			return false;
+		} else if (username.length() < 6) {
+			ConsoleTextUtils.printErrorMessage("Username too short! Please enter at least 6 characters!");
+			return false;
+		}
+		return true;
+	}
+
+	public boolean checkPassword(String password, String repeatPassword) {
+		if (!password.equals(repeatPassword)) {
+			ConsoleTextUtils.printErrorMessage("Password does not match!");
+			return false;
+		}
+		return true;
+	}
+
+	public Optional<ManagerResponseDTO> saveDTO(ManagerSaveRequestDTO saveRequestDTO) {
+		return Optional.empty();
 	}
 }
