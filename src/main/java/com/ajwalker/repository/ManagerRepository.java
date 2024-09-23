@@ -1,6 +1,8 @@
 package com.ajwalker.repository;
 
 import com.ajwalker.entity.Manager;
+import com.ajwalker.entity.Player;
+import com.ajwalker.entity.Team;
 import com.ajwalker.utility.enums.EState;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -42,4 +44,6 @@ public class ManagerRepository extends RepositoryManager<Manager,Long> {
 		}
 		return Optional.empty();
 	}
+	
+
 }

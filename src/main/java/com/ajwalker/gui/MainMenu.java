@@ -1,6 +1,7 @@
 package com.ajwalker.gui;
 
 import com.ajwalker.entity.Manager;
+import com.ajwalker.gui.manager_gui.ManagerDashboard;
 import com.ajwalker.gui.manager_gui.ManagerLoginRegister;
 
 import java.util.Optional;
@@ -46,7 +47,9 @@ public class MainMenu {
     private boolean managerMainMenuOptions(int intUserInput) {
         switch (intUserInput) {
             case 1:{ // Manager Dashboard
-
+                ManagerDashboard managerDashboard = new ManagerDashboard();
+               manager =  managerDashboard.managerDashboard(manager);
+                
                 break;
             }
             case 2:{// Play Match

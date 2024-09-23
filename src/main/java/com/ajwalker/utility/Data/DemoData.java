@@ -44,7 +44,7 @@ public class DemoData {
 
     private static void createLeagues(){
         List<League> leagues = new ArrayList<>();
-        List<Season> seasons = SeasonController.getInstance().findByFieldNameAndValue("title", "2024-2025 TRENDYOL SUPER LEAGUE SEASON");
+        List<Season> seasons = SeasonRepository.getInstance().findByFieldNameAndValue("title", "2024-2025 TRENDYOL SUPER LEAGUE SEASON");
         if(!seasons.isEmpty()){
             League turkishSuperLeagu = League.builder().season(seasons.getFirst()).division(EDivision.SUPER_LIG_TR)
                     .region(ERegion.TURKIYE).leaugeName("Turkish Super League").build();
@@ -82,10 +82,10 @@ public class DemoData {
 
     private static void createTeams(){
         List<Team> teams = new ArrayList<>();
-        League league = LeagueController.getInstance().findById(1L).get();
+        League league = LeagueRepository.getInstance().findById(1L).get();
 
         for(Long i =1L;i<=19L;i++){
-            Stadium stadium = StadiumController.getInstance().findById(i).get();
+            Stadium stadium = StadiumRepository.getInstance().findById(i).get();
             teams.add(Team.builder().teamName("").budget(0L).stadium(stadium).league(league).build());
         }
         teams.get(0).setTeamName("Fenerbahce");
