@@ -3,15 +3,20 @@ package com.ajwalker.controller;
 import com.ajwalker.dto.request.ManagerSaveRequestDTO;
 import com.ajwalker.dto.response.ManagerResponseDTO;
 import com.ajwalker.entity.Manager;
+import com.ajwalker.entity.Player;
 import com.ajwalker.service.ManagerService;
+import com.ajwalker.utility.ConsoleTextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class ManagerController extends ControllerManager<Manager,Long>{
+public class ManagerController {
 	private static ManagerController instance;
 	private static ManagerService managerService = ManagerService.getInstance();
+	
+	
 	private ManagerController() {
-		super(managerService);
 	}
 	public static ManagerController getInstance() {
 		if (instance == null) {
@@ -58,4 +63,8 @@ public class ManagerController extends ControllerManager<Manager,Long>{
 			return Optional.empty();
 		}
 	}
+	public List<Player> findPlayersByManager(Manager manager) {
+		return managerService.findPlayersByManager(manager);
+	}
+	
 }

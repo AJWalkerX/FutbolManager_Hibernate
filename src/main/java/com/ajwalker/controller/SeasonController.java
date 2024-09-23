@@ -3,10 +3,10 @@ package com.ajwalker.controller;
 import com.ajwalker.entity.Season;
 import com.ajwalker.service.SeasonService;
 
-public class SeasonController extends ControllerManager<Season,Long>{
+public class SeasonController {
 	private static SeasonController instance;
 	public SeasonController() {
-		super(SeasonService.getInstance());
+	
 	}
 	public static SeasonController getInstance() {
 		if (instance == null) {

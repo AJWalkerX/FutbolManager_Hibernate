@@ -3,10 +3,10 @@ package com.ajwalker.controller;
 import com.ajwalker.entity.Match;
 import com.ajwalker.service.MatchService;
 
-public class MatchController extends ControllerManager<Match,Long>{
+public class MatchController{
 	private static MatchController instance;
 	private MatchController() {
-		super(MatchService.getInstance());
+	
 	}
 	public static MatchController getInstance() {
 		if (instance == null) {

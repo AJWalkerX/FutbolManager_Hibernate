@@ -3,15 +3,18 @@ package com.ajwalker.service;
 import com.ajwalker.dto.request.ManagerSaveRequestDTO;
 import com.ajwalker.dto.response.ManagerResponseDTO;
 import com.ajwalker.entity.Manager;
+import com.ajwalker.entity.Player;
 import com.ajwalker.repository.ManagerRepository;
 import com.ajwalker.utility.ConsoleTextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ManagerService extends ServiceManager<Manager,Long>{
 	private static ManagerService instance;
 	private static ManagerRepository managerRepository = ManagerRepository.getInstance();
+	private static PlayerService playerService = PlayerService.getInstance();
 	private ManagerService() {
 		super(managerRepository);
 	}
@@ -58,6 +61,34 @@ public class ManagerService extends ServiceManager<Manager,Long>{
 	}
 
 	public Optional<ManagerResponseDTO> saveDTO(ManagerSaveRequestDTO saveRequestDTO) {
-		return Optional.empty();
+		ManagerResponseDTO responseDTO = new ManagerResponseDTO();
+		
+		try {
+			Manager manager =
+					Manager.builder().name(saveRequestDTO.getFullname()).experience(3).age(saveRequestDTO.getAge())
+					       .username(saveRequestDTO.getUsername()).password(saveRequestDTO.getPassword()).build();
+			
+			managerRepository.save(manager);
+			
+			ConsoleTextUtils.printSuccessMessage("Successfully saved!");
+			
+			responseDTO.setFullname(saveRequestDTO.getFullname());
+			responseDTO.setAge(saveRequestDTO.getAge());
+			responseDTO.setUsername(saveRequestDTO.getUsername());
+			
+		}
+		catch (Exception e) {
+			ConsoleTextUtils.printErrorMessage("Service Error: " + e.getMessage());
+		}
+		
+		return Optional.of(responseDTO);
+	}
+	
+	public List<Player> findPlayersByManager(Manager manager) {
+		if (manager.getTeam()!=null){
+			return playerService.findByTeam(manager.getTeam());
+		}
+		ConsoleTextUtils.printErrorMessage("Team not found!");
+		return new ArrayList<>();
 	}
 }
