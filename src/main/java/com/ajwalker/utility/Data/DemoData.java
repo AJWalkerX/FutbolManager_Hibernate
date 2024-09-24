@@ -17,6 +17,12 @@ import java.util.Random;
 
 public class DemoData {
 
+    private static Long minimumSalaryIndex = 35_000L;
+    private static Long maximumSalaryIndex = 45_000L;
+    private static Long minimumValueIndex = 95_000L;
+    private static Long maximumValueIndex = 105_000L;
+    private static Long youngStarPlayerBonusValue = 10_000_000L;
+
 
 
     public static void GenerateDemonData(){
@@ -154,7 +160,7 @@ public class DemoData {
         Random random = new Random();
         Long teamId = 1L;
         for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 18; j++) {
                 Player player = Player.builder().build();
                 switch (j) {
                     case 0:
@@ -168,11 +174,33 @@ public class DemoData {
                         break;
                     case 9, 10:
                         player.setPosition(EPosition.FORWARD);
+                    case 11: player.setPosition(EPosition.GOALKEEPER);
+                    break;
+                    case 12,13: player.setPosition(EPosition.DEFENCE);
+                    break;
+                    case 14,15 : player.setPosition(EPosition.MIDFIELDER);
+                    break;
+                    case 16,17 : player.setPosition(EPosition.FORWARD);
+                    break;
                 }
+
                 player.setName(FIRST_NAMES[random.nextInt(0, FIRST_NAMES.length)] + " " + LAST_NAMES[random.nextInt(0, LAST_NAMES.length)]);
-                player.setValue(random.nextLong(500_000, 45_000_000));
                 player.setSkillLevel(random.nextInt(35, 101));
                 player.setAge((random.nextInt(17, 37)));
+
+                if(player.getSkillLevel()<90){
+                    player.setValue(player.getSkillLevel()* random.nextLong(minimumValueIndex,maximumValueIndex));
+                }
+                else{
+                    player.setValue(player.getSkillLevel()* random.nextLong(minimumValueIndex,maximumValueIndex)* random.nextLong(2,4));
+                    if(player.getAge()<24){
+                        player.setValue(player.getValue()+youngStarPlayerBonusValue);
+                    }
+                }
+
+
+
+                player.setSalary(player.getSkillLevel()* random.nextLong(minimumSalaryIndex,maximumSalaryIndex));
                 Team team = TeamRepository.getInstance().findById(teamId).get();
                 player.setTeam(team);
                 PlayerRepository.getInstance().save(player);

@@ -25,6 +25,10 @@ public class ManagerController {
 		return instance;
 	}
 
+	public List<Manager> findByFieldAndValue(String fieldname, Object value) {
+		return managerService.findByFieldNameAndValue(fieldname, value);
+	}
+
     public Optional<Manager> findByUsernameAndPassword(String username, String password) {
 		try {
 			return managerService.findByUsernameAndPassword(username,password);

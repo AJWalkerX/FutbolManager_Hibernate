@@ -69,6 +69,21 @@ public class ConsoleTextUtils {
         }
     }
 
+    public static long getLongInput(String soru) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(soru + " ");
+
+        while (true) {
+            if (scanner.hasNextLong()) {
+                return scanner.nextLong();
+            } else {
+                System.out.println("Geçersiz giriş! Lütfen bir sayı giriniz.");
+                scanner.next(); // Geçersiz girişi temizle
+                System.out.print(soru + " ");
+            }
+        }
+    }
+
     public static String getStringUserInput(String soru) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(soru + " ");

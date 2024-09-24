@@ -20,7 +20,8 @@ public class Player extends Person {
     @Enumerated(EnumType.STRING)
     private EPosition position;
     private Integer skillLevel; //1-100 arasi olacak.
-    private Long value; //degeri
+    private Long value;
+    private Long salary; //Sonradan eklendi.
     private Integer age;
 
     @ManyToOne

@@ -33,7 +33,7 @@ public class ManagerDashboard {
 		printTitle(starSize,"Manager Dashboard Menu");
 		printMenuOptions(starSize,
 		                 "Display My Team",
-		                 "Search Players",
+		                 "Manage Players",
 						 "Manager Profile",
 		                 "Logout",
 		                 "Return To Main Menu");
@@ -47,6 +47,8 @@ public class ManagerDashboard {
 				break;
 			}
 			case 2:{
+				ManagePlayers managePlayers = new ManagePlayers();
+				managePlayers.managePlayers(Optional.of(manager));
 				break;
 			}
 			case 3:{
@@ -59,7 +61,6 @@ public class ManagerDashboard {
 				
 			}
 			case 5:{// Exit..
-				printSuccessMessage("Gülü Gülü....");
 				return false;
 			}
 		}
@@ -71,6 +72,7 @@ public class ManagerDashboard {
 		if (!playersByManager.isEmpty()) {
 			printTitle(starSize, "My Team");
 			playersByManager.forEach(System.out::println);
+			//TODO: TeamModele çevirilecek.
 		}
 	}
 	
