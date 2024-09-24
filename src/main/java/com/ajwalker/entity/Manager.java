@@ -22,4 +22,5 @@ public class Manager extends Person {
 
     @OneToOne
     private Team team;
+
 }

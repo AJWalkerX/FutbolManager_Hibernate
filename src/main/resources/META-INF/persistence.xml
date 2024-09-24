@@ -14,6 +14,9 @@
         <class>com.ajwalker.entity.Match</class>
         <class>com.ajwalker.entity.Team</class>
         <class>com.ajwalker.entity.Fixture</class>
+        <class>com.ajwalker.entity.TransferOffer</class>
+        <class>com.ajwalker.entity.ContractOffer</class>
+
 
 
         <properties>
