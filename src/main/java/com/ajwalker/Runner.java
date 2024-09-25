@@ -18,12 +18,11 @@ public class Runner {
         HibernateConnection.beginConnection();
 
 
-        DemoData.GenerateDemonData();
+//        DemoData.GenerateDemonData();
         welcomeMassege();
         MainMenu mainMenu = MainMenu.getInstance();
         mainMenu.mainMenu();
         HibernateConnection.em.getTransaction().commit();
-        
         HibernateConnection.connectionClose();
     }
 

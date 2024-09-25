@@ -6,11 +6,14 @@ import com.ajwalker.controller.TransferOfferController;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
 import com.ajwalker.entity.TransferOffer;
+import com.ajwalker.model.OffersModel;
 import com.ajwalker.model.PlayerModel;
 import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.enums.EOfferResponse;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,8 +64,9 @@ public class ManagePlayers {
 				break;
 			}
 			case 2:{
-				//TODO: Buraya Model gelecek!
-				transferOfferController.displayOffersForReceiver(manager).forEach(System.out::println);
+				transferOfferController.displayOffersForReceiver(manager).forEach(offers ->{
+					new OffersModel(offers).displayRecievedOffer();
+				});
 				break;
 			}
 			case 3:{
@@ -94,6 +98,10 @@ public class ManagePlayers {
 				transferOffer.setResponse(EOfferResponse.ON_WAIT);
 				transferOffer.setBiddingMoney(ConsoleTextUtils.getLongInput("State your offer"));
 				transferOfferController.save(transferOffer);
+				break;
+				case 2:{
+					break;
+				}
 
 		}
 

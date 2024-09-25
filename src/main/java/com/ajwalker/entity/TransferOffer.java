@@ -23,12 +23,12 @@ public class TransferOffer extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private EOfferResponse response;
 
-    @OneToOne
+    @ManyToOne
     private Team proposer;
-    @OneToOne
+    @ManyToOne
     private Team receiver;
 
-    @OneToOne
+    @ManyToOne
     private Player player;
 
 }

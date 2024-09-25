@@ -4,6 +4,7 @@ import com.ajwalker.dto.request.ManagerSaveRequestDTO;
 import com.ajwalker.dto.response.ManagerResponseDTO;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
+import com.ajwalker.entity.Team;
 import com.ajwalker.service.ManagerService;
 import com.ajwalker.utility.ConsoleTextUtils;
 
@@ -68,5 +69,16 @@ public class ManagerController {
 		}
 	}
 
-	
+
+	public Optional<Manager> findByTeam(Team proposer) {
+		try {
+			List<Manager> managers = managerService.findByFieldNameAndValue("team", proposer);
+			if (!managers.isEmpty()) {
+				return Optional.of(managers.getFirst());
+			}
+		} catch (Exception e) {
+			ConsoleTextUtils.printErrorMessage("Controller Error: "+ e.getMessage());
+		}
+		return Optional.empty();
+	}
 }

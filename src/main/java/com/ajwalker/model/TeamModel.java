@@ -40,7 +40,7 @@ public class TeamModel {
         System.out.println("----------- ----------------------- -----------" );
         System.out.println("**********************************************");
         System.out.println("----------- " + teamName+ " -----------" );
-        System.out.println("**********************************************");
+        System.out.println("Budget      :"+ currencyFormat.format(budget));
         displayPlayer(players);
 
 
