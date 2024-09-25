@@ -67,8 +67,6 @@ public class ManagerController {
 			return Optional.empty();
 		}
 	}
-	public List<Player> findPlayersByManager(Manager manager) {
-		return managerService.findPlayersByManager(manager);
-	}
+
 	
 }

@@ -3,6 +3,7 @@ package com.ajwalker.gui.manager_gui;
 import com.ajwalker.controller.ManagerController;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
+import com.ajwalker.model.TeamModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -68,12 +69,7 @@ public class ManagerDashboard {
 	}
 
 	public void displayMyTeam(){
-		List<Player> playersByManager = managerController.findPlayersByManager(manager);
-		if (!playersByManager.isEmpty()) {
-			printTitle(starSize, "My Team");
-			playersByManager.forEach(System.out::println);
-			//TODO: TeamModele çevirilecek.
-		}
+		new TeamModel(manager.getTeam()).displayMyTeam();
 	}
 	
 }

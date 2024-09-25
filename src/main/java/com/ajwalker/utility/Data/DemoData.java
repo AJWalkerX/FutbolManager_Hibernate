@@ -31,6 +31,7 @@ public class DemoData {
         createStadiums();
         createTeams();
         createPlayers();
+        setTeamSquads();
         createManagers();
         FixtureGenerator.createFixture();
 
@@ -92,7 +93,7 @@ public class DemoData {
 
         for(Long i =1L;i<=19L;i++){
             Stadium stadium = StadiumRepository.getInstance().findById(i).get();
-            teams.add(Team.builder().teamName("").budget(0L).stadium(stadium).league(league).build());
+            teams.add(Team.builder().teamName("").budget(0L).stadium(stadium).league(league).players(new ArrayList<>()).build());
         }
         teams.get(0).setTeamName("Fenerbahce");
         teams.get(0).setBudget(252_400_000L);
@@ -207,6 +208,16 @@ public class DemoData {
 
             }
             teamId++;
+        }
+    }
+    private static void setTeamSquads() {
+        List<Player> players = PlayerRepository.getInstance().findAll();
+        Team team;
+        for (Player player : players) {
+            team = player.getTeam();
+            if (team != null){
+                team.getPlayers().add(player);
+            }
         }
     }
 

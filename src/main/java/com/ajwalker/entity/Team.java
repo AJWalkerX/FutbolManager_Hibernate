@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +27,9 @@ public class Team  extends BaseEntity{
     @ManyToOne
     @JoinColumn(nullable = false)
     private League league;
+
+    @OneToMany(mappedBy = "team")
+    List<Player> players;
 
 
 }

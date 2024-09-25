@@ -3,12 +3,14 @@ package com.ajwalker.controller;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.service.TransferOfferService;
+import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.HibernateConnection;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.HibernateError;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +34,11 @@ public class TransferOfferController {
 
 
     public List<TransferOffer> displayOffersForReceiver(Manager manager) {
-        String hql = "from TransferOffer where receiver = :receiver";
-        return HibernateConnection.em.createQuery(hql, TransferOffer.class)
-                .setParameter("receiver", manager.getTeam())
-                .getResultList();
+        try {
+            return transferOfferService.displayOffersForReceiver(manager);
+        } catch (Exception e) {
+            ConsoleTextUtils.printErrorMessage("Controller Error: " + e.getMessage());
+        }
+        return new ArrayList<>();
     }
 }

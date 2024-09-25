@@ -4,8 +4,10 @@ import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.repository.TeamRepository;
 import com.ajwalker.repository.TransferOfferRepository;
+import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.HibernateConnection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransferOfferService extends ServiceManager<TransferOffer,Long> {
@@ -26,6 +28,11 @@ public class TransferOfferService extends ServiceManager<TransferOffer,Long> {
     }
 
     public List<TransferOffer> displayOffersForReceiver(Manager manager) {
-        return transferOfferRepository.displayOffersForReceiver(manager);
+        try {
+            return transferOfferRepository.displayOffersForReceiver(manager);
+        } catch (Exception e) {
+            ConsoleTextUtils.printErrorMessage("Service Error: "+ e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

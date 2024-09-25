@@ -26,11 +26,7 @@ public class PlayerService extends ServiceManager<Player,Long>{
 		}
 		return instance;
 	}
-	
-	public List<Player> findByTeam(Team team) {
-		return playerRepository.findByTeam(team);
-		
-	}
+
 
 	public List<Player> makeAnOfferForPlayer(String nameToSearch){
         List<Player> playerList = new ArrayList<>();

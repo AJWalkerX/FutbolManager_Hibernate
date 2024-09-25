@@ -83,12 +83,5 @@ public class ManagerService extends ServiceManager<Manager,Long>{
 		
 		return Optional.of(responseDTO);
 	}
-	
-	public List<Player> findPlayersByManager(Manager manager) {
-		if (manager.getTeam()!=null){
-			return playerService.findByTeam(manager.getTeam());
-		}
-		ConsoleTextUtils.printErrorMessage("Team not found!");
-		return new ArrayList<>();
-	}
+
 }

@@ -5,15 +5,10 @@ import com.ajwalker.controller.PlayerController;
 import com.ajwalker.controller.TransferOfferController;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
-import com.ajwalker.entity.Team;
 import com.ajwalker.entity.TransferOffer;
-import com.ajwalker.model.PlayerOfferModel;
+import com.ajwalker.model.PlayerModel;
 import com.ajwalker.utility.ConsoleTextUtils;
-import com.ajwalker.utility.HibernateConnection;
 import com.ajwalker.utility.enums.EOfferResponse;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToOne;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.ajwalker.utility.ConsoleTextUtils.*;
-import static com.ajwalker.utility.ConsoleTextUtils.printSuccessMessage;
 
 public class ManagePlayers {
 	private Manager manager;
@@ -67,11 +61,15 @@ public class ManagePlayers {
 				break;
 			}
 			case 2:{
+				//TODO: Buraya Model gelecek!
 				transferOfferController.displayOffersForReceiver(manager).forEach(System.out::println);
 				break;
 			}
+			case 3:{
+				break;
+			}
 			
-			case 3:{// Exit..
+			case 4:{// Exit..
 				return false;
 			}
 		}
@@ -82,11 +80,12 @@ public class ManagePlayers {
 
 
 	private void makeAnOfferForPlayer(Player player) {
-		new PlayerOfferModel(player).displayPlayer();
+		new PlayerModel(player).displayPlayerForOffer();
 		printMenuOptions("Make An Offer For Player","Return");
 		int choice = getIntUserInput("Your choice: ");
 		switch (choice){
 			case 1:
+				// DTO Olsayadı bu kodlar service'de olacaktı!
 				TransferOffer transferOffer = new TransferOffer();
 				transferOffer.setPlayer(player);
 				transferOffer.setMessage(getStringUserInput("Message: "));

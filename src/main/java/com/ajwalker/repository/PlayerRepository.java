@@ -27,23 +27,7 @@ public class PlayerRepository extends RepositoryManager<Player,Long>{
 		}
 		return instance;
 	}
-	
-	public List<Player> findByTeam(Team team) {
-		try {
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<Player> cq = cb.createQuery(Player.class);
-			Root<Player> root = cq.from(Player.class);
-			cq.select(root).where(cb.equal(root.get("team"), team));
-			
-			return em.createQuery(cq).getResultList();
-		}
-		
-		catch (RuntimeException e) {
-			System.err.println("findByUsernameAndPassword metodunda hata..." + e.getMessage());
-		}
-		return new ArrayList<Player>();
-		
-	}
+
 
 	public List<Player> makeAnOfferForPlayer(String nameToSearch) {
 		String sql = "SELECT * from tblplayer WHERE name ILIKE  '%" + nameToSearch + "%'";
