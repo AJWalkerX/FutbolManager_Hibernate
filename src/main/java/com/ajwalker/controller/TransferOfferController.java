@@ -4,15 +4,9 @@ import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.service.TransferOfferService;
 import com.ajwalker.utility.ConsoleTextUtils;
-import com.ajwalker.utility.HibernateConnection;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import org.hibernate.HibernateError;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TransferOfferController {
     private static TransferOfferController instance;
@@ -33,12 +27,20 @@ public class TransferOfferController {
     }
 
 
-    public List<TransferOffer> displayOffersForReceiver(Manager manager) {
+    public List<TransferOffer> getOffersForReceiver(Manager manager) {
         try {
-            return transferOfferService.displayOffersForReceiver(manager);
+            return transferOfferService.getOffersForReceiver(manager);
         } catch (Exception e) {
             ConsoleTextUtils.printErrorMessage("Controller Error: " + e.getMessage());
         }
         return new ArrayList<>();
+    }
+
+    public void replyToOffer(TransferOffer transferOffer, int userReplySelection) {
+        try {
+            transferOfferService.replyToOffer(transferOffer,userReplySelection);
+        } catch (Exception e) {
+            ConsoleTextUtils.printErrorMessage("Controller Error: " + e.getMessage());
+        }
     }
 }

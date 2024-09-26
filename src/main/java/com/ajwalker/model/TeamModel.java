@@ -6,6 +6,7 @@ import com.ajwalker.entity.Team;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class TeamModel {
     private String teamName;
@@ -14,6 +15,7 @@ public class TeamModel {
     private String stadiumLocation;
     private Integer capacity;
     private String leagueName;
+    private Integer teamPower;
     private List<Player> players;
 
     public TeamModel(Team team) {
@@ -24,6 +26,7 @@ public class TeamModel {
         this.capacity = team.getStadium().getCapacity();
         this.leagueName = team.getLeague().getLeaugeName();
         this.players = team.getPlayers();
+        this.teamPower = calculateTeamPower();
     }
 
     public void displayMyTeam(){
@@ -32,14 +35,12 @@ public class TeamModel {
         System.out.println("**********************************************");
         System.out.println("----------- " + leagueName+ " -----------" );
         System.out.println("**********************************************");
-        System.out.println("**********************************************");
-        System.out.println("----------- " + stadiumName+ " -----------" );
-        System.out.println("----------- ----------------------- -----------" );
+        System.out.println("---------------- " + stadiumName+ " ----------------" );
         System.out.println("stadium Location     : " + stadiumLocation);
         System.out.println("stadium Capacity     : " + capacity);
         System.out.println("----------- ----------------------- -----------" );
-        System.out.println("**********************************************");
         System.out.println("----------- " + teamName+ " -----------" );
+        System.out.println("Team Power  :" +teamPower);
         System.out.println("Budget      :"+ currencyFormat.format(budget));
         displayPlayer(players);
 
@@ -53,5 +54,9 @@ public class TeamModel {
                 playerModel.displayPlayerForMyTeam();
             }
         }
+    }
+
+    public Integer calculateTeamPower() {
+        return players.stream().collect(Collectors.averagingInt(Player::getSkillLevel)).intValue();
     }
 }

@@ -1,7 +1,6 @@
 package com.ajwalker.repository;
 
 import com.ajwalker.entity.Manager;
-import com.ajwalker.entity.Team;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.HibernateConnection;
@@ -24,7 +23,7 @@ public class TransferOfferRepository extends RepositoryManager<TransferOffer,Lon
         return instance;
     }
 
-    public List<TransferOffer> displayOffersForReceiver(Manager manager) {
+    public List<TransferOffer> getOffersForReceiver(Manager manager) {
         try {
             String hql = "from TransferOffer where receiver = :receiver";
             return HibernateConnection.em.createQuery(hql, TransferOffer.class)

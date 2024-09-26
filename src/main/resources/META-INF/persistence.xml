@@ -33,7 +33,7 @@
                       value="root" />
 
             <property name="hibernate.show_sql"
-                      value="true" />
+                      value="false" />
 
             <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.use_sql_comments" value="false"/>

@@ -33,7 +33,7 @@ public class OffersModel {
 
     public void displayRecievedOffer() {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
-        System.out.println("------ Offers for receiver --------");
+        System.out.println("----------- Details -----------");
         System.out.println("Message		: " + massage);
         System.out.println("For 		: "+ playerName);
         System.out.println("Offer		: "+ currencyFormat.format(offer));
