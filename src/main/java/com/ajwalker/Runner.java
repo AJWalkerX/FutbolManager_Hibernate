@@ -27,10 +27,11 @@ public class Runner {
 		
 	//	 DemoData.GenerateDemonData();
 		
-		 welcomeMassege();
+	//	 welcomeMassege();
 		League league = LeagueRepository.getInstance().findById(1L).get();
-		new LeagueModel(league).displayFixture();
-		//
+		new LeagueModel(league).displayWeeklyFixture(2);
+		
+		//new LeagueModel(league).displayFixture();
 //		MainMenu mainMenu = MainMenu.getInstance();
 //		mainMenu.mainMenu();
 

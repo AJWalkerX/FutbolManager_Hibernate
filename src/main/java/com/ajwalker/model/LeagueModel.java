@@ -69,7 +69,7 @@ public class LeagueModel {
 		System.out.println("Week " + week + " Fixture:");
 		System.out.println("----------------------------------");
 		matches.stream()
-		       .filter(m -> !m.getHomeTeamId().equals(20) && !m.getAwayTeamId().equals(20))
+		       .filter(m -> !m.getHomeTeamId().equals(20L) && !m.getAwayTeamId().equals(20L))
 		       .skip((week - 1) * 9).limit(9)
 		       .forEach(m -> new MatchModel( m).displayMatchInfo());
 		System.out.println("----------------------------------");
