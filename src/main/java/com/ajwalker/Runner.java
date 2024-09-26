@@ -24,16 +24,9 @@ public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
 		
-		
-	//	 DemoData.GenerateDemonData();
-		
-	//	 welcomeMassege();
-		League league = LeagueRepository.getInstance().findById(1L).get();
-		new LeagueModel(league).displayWeeklyFixture(2);
-		
-		//new LeagueModel(league).displayFixture();
-//		MainMenu mainMenu = MainMenu.getInstance();
-//		mainMenu.mainMenu();
+//		DemoData.GenerateDemonData();
+		MainMenu mainMenu = MainMenu.getInstance();
+		mainMenu.mainMenu();
 
 
 		

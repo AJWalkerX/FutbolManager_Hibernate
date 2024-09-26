@@ -16,6 +16,8 @@
         <class>com.ajwalker.entity.Fixture</class>
         <class>com.ajwalker.entity.TransferOffer</class>
         <class>com.ajwalker.entity.ContractOffer</class>
+        <class>com.ajwalker.entity.Stats</class>
+
 
 
 

@@ -11,7 +11,6 @@ import java.time.LocalDate;
 public class MatchModel {
 	
 	private Long matchId;
-	private League league;
 	private String homeTeamName;
 	private String awayTeamName;
 	private Integer homeTeamScore;

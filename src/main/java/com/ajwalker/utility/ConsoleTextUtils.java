@@ -32,7 +32,7 @@ public class ConsoleTextUtils {
     }
 
     public static void printTitle(String metin) {
-        printTitle(30,metin);
+        printTitle(50,metin);
     }
 
     public static void printMenuOptions(int yildizSayisi,String... secenekler) {
@@ -51,7 +51,7 @@ public class ConsoleTextUtils {
     }
 
     public static void printMenuOptions(String... secenekler) {
-        printMenuOptions(30, secenekler);
+        printMenuOptions(50, secenekler);
     }
 
     public static int getIntUserInput(String soru) {

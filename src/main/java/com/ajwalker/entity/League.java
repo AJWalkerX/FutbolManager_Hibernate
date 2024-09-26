@@ -34,4 +34,6 @@ public class League extends BaseEntity {
     
     @OneToOne(mappedBy = "league")
     private Fixture fixture;
+
+
 }
