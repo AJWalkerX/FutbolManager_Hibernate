@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Objects;
+
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,4 +22,18 @@ public class Fixture extends BaseEntity {
 
     @OneToOne
     private League league;
+
+    @Override
+    public String toString() {
+        return "Fixture{" +
+                "description='" + description + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, description); //Burda ne yaptığını ANLA!!!!
+    }
 }

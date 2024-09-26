@@ -1,10 +1,10 @@
 package com.ajwalker.model;
 
 import com.ajwalker.controller.MatchController;
-import com.ajwalker.entity.Fixture;
-import com.ajwalker.entity.League;
-import com.ajwalker.entity.Match;
-import com.ajwalker.entity.Season;
+import com.ajwalker.controller.TeamController;
+import com.ajwalker.entity.*;
+import com.ajwalker.repository.MatchRepository;
+import com.ajwalker.repository.StatsRepository;
 import com.ajwalker.utility.enums.EDivision;
 import com.ajwalker.utility.enums.ERegion;
 
@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LeagueModel {
+
+	private StatsRepository statsRepository = StatsRepository.getInstance();
+	private TeamController teamController = TeamController.getInstance();
 	
 	private String leaugeName;
 	private ERegion region;
@@ -76,39 +79,39 @@ public class LeagueModel {
 		
 	}
 	
-//	public void displayStandings() {
-//		AtomicInteger rank = new AtomicInteger(1);
+	public void displayStandings() {
+		AtomicInteger rank = new AtomicInteger(1);
+
+		System.out.printf("%-4s %-20s %3s %3s %3s %3s %3s %3s %4s %3s%n",
+		                  "No", "Team Name", "GP", "W", "D", "L", "F", "A", "GD", "P");
+
+		statsRepository.findAll().stream()
+		                     .filter(t -> !t.getId().equals(20L))
+		                     .sorted(Comparator.comparing(Stats::getPoints, Comparator.reverseOrder())
+		                                       .thenComparing(Stats::getGoalDifference,Comparator.reverseOrder())
+		                                       .thenComparing(Stats::getGoalsFor,Comparator.reverseOrder()))
+		                     .map(t -> String.format("%-4d %-20s %3d %3d %3d %3d %3d %3d %4d %3d",
+		                                             rank.getAndIncrement(),
+		                                           t.getTeam().getTeamName(),
+		                                             t.getGamesPlayed(),
+		                                             t.getTotalWins(),
+		                                             t.getTotalDraws(),
+		                                             t.getTotalLoses(),
+		                                             t.getGoalsFor(),
+		                                             t.getGoalsAgainst(),
+		                                             t.getGoalDifference(),
+		                                             t.getPoints()))
+		                     .forEach(System.out::println);
+		System.out.println("----------------------------------------------");
+	}
 //
-//		System.out.printf("%-4s %-20s %3s %3s %3s %3s %3s %3s %4s %3s%n",
-//		                  "No", "Team Name", "GP", "W", "D", "L", "F", "A", "GD", "P");
-//
-//		databaseModel.statsDB.findAll().stream()
-//		                     .filter(t -> !t.getId().equals(20))
-//		                     .sorted(Comparator.comparing(Stats::getPoints, Comparator.reverseOrder())
-//		                                       .thenComparing(Stats::getGoalDifference,Comparator.reverseOrder())
-//		                                       .thenComparing(Stats::getGoalsFor,Comparator.reverseOrder()))
-//		                     .map(t -> String.format("%-4d %-20s %3d %3d %3d %3d %3d %3d %4d %3d",
-//		                                             rank.getAndIncrement(),
-//		                                             databaseModel.teamDB.findByID(t.getTeamID()).get().getTeamName(),
-//		                                             t.getGamesPlayed(),
-//		                                             t.getTotalWins(),
-//		                                             t.getTotalDraws(),
-//		                                             t.getTotalLoses(),
-//		                                             t.getGoalsFor(),
-//		                                             t.getGoalsAgainst(),
-//		                                             t.getGoalDifference(),
-//		                                             t.getPoints()))
-//		                     .forEach(System.out::println);
-//		System.out.println("----------------------------------------------");
-//	}
-//
-//	public void displayPlayedMatches() {
-//		System.out.println("-------------------------");
-//		System.out.println(league.getLeaugeName()+": PLAYED GAMES SO FAR...");
-//		System.out.println();
-//
-//		databaseModel.matchDB.findAll().stream()
-//		                     .filter(Match::isPlayed)
-//		                     .forEach(m->new MatchModel(databaseModel, m).displayMatchInfo());
-//	}
+	public void displayPlayedMatches() {
+		System.out.println("-------------------------");
+		System.out.println(league.getLeaugeName()+": PLAYED GAMES SO FAR...");
+		System.out.println();
+
+		MatchRepository.getInstance().findAll().stream()
+		                     .filter(Match::isPlayed)
+		                     .forEach(m->new MatchModel(m).displayMatchInfo());
+	}
 }

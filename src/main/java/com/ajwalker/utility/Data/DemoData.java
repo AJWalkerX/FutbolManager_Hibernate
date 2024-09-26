@@ -91,13 +91,16 @@ public class DemoData {
     private static void createTeams(){
         List<Team> teams = new ArrayList<>();
         League league = LeagueRepository.getInstance().findById(1L).get();
+        List<Stats> stats = new ArrayList<>();
         
         
 
         for(Long i =1L;i<=19L;i++){
             Stadium stadium = StadiumRepository.getInstance().findById(i).get();
-            teams.add(Team.builder().teamName("").budget(0L).stadium(stadium)
-                    .league(league).players(new ArrayList<>()).build());
+           Team team = Team.builder().teamName("").budget(0L).stadium(stadium)
+                    .league(league).players(new ArrayList<>()).build();
+            teams.add(team);
+            stats.add(Stats.builder().team(team).build());
         }
         teams.get(0).setTeamName("Fenerbahce");
         teams.get(0).setBudget(252_400_000L);
@@ -143,8 +146,7 @@ public class DemoData {
         teams.add(bayTeam);
 
         TeamRepository.getInstance().saveAll(teams);
-        
-
+        StatsRepository.getInstance().saveAll(stats);
     }
 
     private static final String[] FIRST_NAMES = {

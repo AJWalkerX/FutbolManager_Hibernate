@@ -1,6 +1,7 @@
 package com.ajwalker.gui;
 
 import com.ajwalker.entity.Manager;
+import com.ajwalker.gui.league_gui.LeagueMenu;
 import com.ajwalker.gui.manager_gui.ManagerDashboard;
 import com.ajwalker.gui.manager_gui.ManagerLoginRegister;
 
@@ -10,7 +11,6 @@ import static com.ajwalker.utility.ConsoleTextUtils.*;
 
 public class MainMenu {
     private Optional<Manager> manager = Optional.empty();
-    private final int starSize = 50;
     private static MainMenu instance;
 
     private MainMenu() {}
@@ -34,8 +34,8 @@ public class MainMenu {
     }
 
     private boolean managerMainMenu() {
-        printTitle(starSize,"Main Menu");
-        printMenuOptions(starSize,
+        printTitle("Main Menu");
+        printMenuOptions(
                 "Manager Dashboard",
                 "Play Match",
                 "Show Leagues",
@@ -56,7 +56,8 @@ public class MainMenu {
                 //TODO: League sor ondan sonra mach menusune aktar!
                 break;
             }
-            case 3:{ //Show Leagues
+            case 3:{ //League Menu
+                LeagueMenu.getInstance().leagueMenu();
                 break;
             }
             case 4:{ // Logout
@@ -74,11 +75,11 @@ public class MainMenu {
     }
 
     private boolean anonymousMainMenu() {
-        printTitle(starSize,"Main Menu");
-        printMenuOptions(starSize,
+        printTitle("Main Menu");
+        printMenuOptions(
                 "Manager Login",
                 "Play Match",
-                "Show Leagues",
+                "League Menu",
                 "Fedaration Login (In development...)",
                 "Exit");
         return anonymousMainMenuOptions(getIntUserInput("Select: "));
@@ -95,7 +96,8 @@ public class MainMenu {
                 //TODO: League sor ondan sonra mach menusune aktar!
                 break;
             }
-            case 3:{ //Show Leagues
+            case 3:{ //League Menu
+                LeagueMenu.getInstance().leagueMenu();
                 break;
             }
             case 4:{ // Federation login (In development...)
