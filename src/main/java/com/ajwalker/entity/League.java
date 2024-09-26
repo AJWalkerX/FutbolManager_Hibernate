@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -29,4 +31,7 @@ public class League extends BaseEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Season season;
+    
+    @OneToOne(mappedBy = "league")
+    private Fixture fixture;
 }

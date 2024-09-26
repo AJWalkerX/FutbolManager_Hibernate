@@ -13,4 +13,5 @@ public class MatchRepository extends RepositoryManager<Match,Long>{
 		}
 		return instance;
 	}
+	
 }

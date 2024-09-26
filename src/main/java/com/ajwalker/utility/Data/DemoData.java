@@ -81,15 +81,18 @@ public class DemoData {
         Stadium stadium17 = Stadium.builder().name("Timsah Arena").location("Bursa").capacity(32325).build();
         Stadium stadium18 = Stadium.builder().name("Sakarya Ataturk Stadyumu").location("Sakarya").capacity(27569).build();
         Stadium stadium19 = Stadium.builder().name("Bodrum Belediyesi Bodrumspor Stadyumu").location("Mugla").capacity(5000).build();
+        Stadium stadium20 = Stadium.builder().name("BAY").location("Adana").capacity(5000).build();
 
         List<Stadium> stadiumList = new ArrayList<>();
-        stadiumList.addAll(List.of(stadium1,stadium2,stadium3,stadium4,stadium5,stadium6,stadium7,stadium8,stadium9,stadium10,stadium11,stadium12,stadium13,stadium14,stadium15,stadium16,stadium17,stadium18,stadium19));
+        stadiumList.addAll(List.of(stadium1,stadium2,stadium3,stadium4,stadium5,stadium6,stadium7,stadium8,stadium9,stadium10,stadium11,stadium12,stadium13,stadium14,stadium15,stadium16,stadium17,stadium18,stadium19,stadium20));
         StadiumRepository.getInstance().saveAll(stadiumList);
     }
 
     private static void createTeams(){
         List<Team> teams = new ArrayList<>();
         League league = LeagueRepository.getInstance().findById(1L).get();
+        
+        
 
         for(Long i =1L;i<=19L;i++){
             Stadium stadium = StadiumRepository.getInstance().findById(i).get();
@@ -134,8 +137,13 @@ public class DemoData {
         teams.get(17).setBudget(12_750_000L);
         teams.get(18).setTeamName("Sipay Bodrum FK");
         teams.get(18).setBudget(20_710_000L);
+        
+        Stadium stadium = StadiumRepository.getInstance().findById(20L).get();
+        Team bayTeam = Team.builder().teamName("BAY").league(league).stadium(stadium).build();
+        teams.add(bayTeam);
 
         TeamRepository.getInstance().saveAll(teams);
+        
 
     }
 

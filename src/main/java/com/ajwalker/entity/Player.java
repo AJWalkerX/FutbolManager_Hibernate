@@ -25,7 +25,6 @@ public class Player extends Person {
     private Integer age;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     private Team team;
 
 }

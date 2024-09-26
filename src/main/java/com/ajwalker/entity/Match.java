@@ -31,6 +31,8 @@ public class Match extends BaseEntity {
 
     private LocalDate matchDate;
     
+    private boolean isPlayed;
+    
     @ManyToOne
     private Fixture fixture;
 }

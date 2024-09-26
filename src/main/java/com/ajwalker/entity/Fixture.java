@@ -19,6 +19,5 @@ public class Fixture extends BaseEntity {
     private String description;
 
     @OneToOne
-    @JoinColumn(nullable = false)
     private League league;
 }
