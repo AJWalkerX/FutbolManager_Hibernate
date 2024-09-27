@@ -1,13 +1,7 @@
 package com.ajwalker.service;
 
-import com.ajwalker.entity.Fixture;
-import com.ajwalker.entity.Match;
-import com.ajwalker.entity.Season;
-import com.ajwalker.entity.Stats;
-import com.ajwalker.repository.FixtureRepository;
-import com.ajwalker.repository.MatchRepository;
-import com.ajwalker.repository.SeasonRepository;
-import com.ajwalker.repository.StatsRepository;
+import com.ajwalker.entity.*;
+import com.ajwalker.repository.*;
 import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.engine.MatchEngine;
 import com.ajwalker.utility.enums.EState;
@@ -44,7 +38,11 @@ public class MatchService extends ServiceManager<Match, Long> {
 
     public void playMatch() {
         List<Match> matches = matchRepository.findByFieldNameAndValue("isPlayed", false).
-                stream().filter(match -> match.getState() != EState.BAY).sorted(Comparator.comparing(Match::getMatchDate)).limit(10).toList();
+                stream().filter(match -> {
+                    Team homeTeam = TeamRepository.getInstance().findById(match.getHomeTeamId()).get();
+                    Team awayTeam = TeamRepository.getInstance().findById(match.getAwayTeamId()).get();
+                    return !(homeTeam.getTeamName().equals("BAY") || awayTeam.getTeamName().equalsIgnoreCase("BAY"));
+                }).sorted(Comparator.comparing(Match::getMatchDate)).toList();
 
         Match match = matches.getFirst();
         MatchEngine.simulateMatch(match);

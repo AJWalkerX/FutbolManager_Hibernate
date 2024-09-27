@@ -125,7 +125,7 @@ public class MatchEngine {
     }
 
     private static boolean makeSave(Team team) {
-        Player goalKeeper = selectRandomPlayer(team, EPosition.GOALKEEPER, EPosition.FORWARD, EPosition.MIDFIELDER);
+        Player goalKeeper = selectRandomPlayer(team, EPosition.GOALKEEPER);
         boolean success = random.nextInt(100) < goalKeeper.getSkillLevel();
 
         if (success) {
@@ -140,9 +140,9 @@ public class MatchEngine {
 //                .filter(p -> p.getTeam().equals(team))
 //                .filter(p -> List.of(positions).contains(p.getPosition()))
 //                .toList();
+
         List<Player> players = team.getPlayers();
-        players.forEach(System.out::println);
-        System.out.println(players.size());
-        return players.get(random.nextInt(0,players.size()));
+
+        return players.get(random.nextInt(players.size()));
     }
 }
