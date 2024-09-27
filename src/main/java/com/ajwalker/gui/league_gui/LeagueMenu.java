@@ -14,7 +14,7 @@ import static com.ajwalker.utility.ConsoleTextUtils.*;
 
 
 public class LeagueMenu {
-    private Optional<Manager> manager = Optional.empty();
+    private Optional<Manager> manager;
 
     private final int starSize = 50;
     private LeagueController leagueController = LeagueController.getInstance();
@@ -33,13 +33,51 @@ public class LeagueMenu {
 
 
 
-    public void leagueMenu(){
-        boolean opt = true;
+    public void leagueMenu(Optional<Manager> manager){
+        this.manager = manager;
+        boolean opt;
         do{
-            if (manager.isEmpty()) opt = anonymousLeagueMenu();
-                //-->             <--//
-//            else opt = leagueMainMenu();
+            if (this.manager.isEmpty()) {
+                opt = anonymousLeagueMenu();
+            }
+            else {
+                opt = leagueMainMenu();
+            }
         } while(opt);
+    }
+
+    private boolean leagueMainMenu() {
+        printTitle("LEAGUE MENU");
+        printMenuOptions("Manager Dashboard","Show all leagues","Show all teams","Select League",
+                "Logout","Return to Main Menu");
+        return leagueMenuOptions(getIntUserInput("Select: "));
+    }
+
+    private boolean leagueMenuOptions(int userInput) {
+        switch(userInput){
+            case 1:
+                break;
+            case 2:
+                displayAllLeagues();
+                break;
+            case 3:
+                displayAllTeams();
+                break;
+
+            case 4:
+                League league = selectLeague();
+                if(league != null){
+                    new DetailedLeagueMenu().detailedLeagueMenu(league);
+                }
+                break;
+            case 5:
+                this.manager = Optional.empty();
+                break;
+            case 6:
+                System.out.println("Returning to Main Menu");
+                return false;
+        }
+        return true;
     }
 
     private boolean anonymousLeagueMenu() {

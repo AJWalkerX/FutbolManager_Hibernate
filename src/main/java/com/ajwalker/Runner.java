@@ -8,6 +8,7 @@ import com.ajwalker.entity.League;
 import com.ajwalker.entity.Match;
 import com.ajwalker.entity.Season;
 import com.ajwalker.gui.MainMenu;
+import com.ajwalker.gui.manager_gui.ManagePlayers;
 import com.ajwalker.model.LeagueModel;
 import com.ajwalker.model.MatchModel;
 import com.ajwalker.repository.LeagueRepository;
@@ -25,8 +26,10 @@ public class Runner {
 		HibernateConnection.beginConnection();
 		
 //		DemoData.GenerateDemonData();
+		welcomeMassege();
 		MainMenu mainMenu = MainMenu.getInstance();
 		mainMenu.mainMenu();
+
 
 
 		

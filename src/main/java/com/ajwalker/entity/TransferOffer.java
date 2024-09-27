@@ -31,4 +31,12 @@ public class TransferOffer extends BaseEntity{
     @ManyToOne
     private Player player;
 
+    @Override
+    public String toString() {
+        return "TransferOffer{" +
+                "response=" + response +
+                ", biddingMoney=" + biddingMoney +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

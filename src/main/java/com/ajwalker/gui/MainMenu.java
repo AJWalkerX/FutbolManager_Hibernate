@@ -57,7 +57,7 @@ public class MainMenu {
                 break;
             }
             case 3:{ //League Menu
-                LeagueMenu.getInstance().leagueMenu();
+                LeagueMenu.getInstance().leagueMenu(manager);
                 break;
             }
             case 4:{ // Logout
@@ -97,7 +97,7 @@ public class MainMenu {
                 break;
             }
             case 3:{ //League Menu
-                LeagueMenu.getInstance().leagueMenu();
+                LeagueMenu.getInstance().leagueMenu(manager);
                 break;
             }
             case 4:{ // Federation login (In development...)

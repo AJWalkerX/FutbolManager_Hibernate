@@ -51,7 +51,7 @@ public class ManagePlayers {
     }
 
     private boolean managePlayersMenuOptions(int intUserInput) {
-        List<TransferOffer> recievedOffers = getRecievedOffers();
+        List<TransferOffer> recievedOffers = transferOfferController.getOffersForReceiver(manager);
         switch (intUserInput) {
             case 1: {
                 Player player = searchPlayer();
@@ -64,7 +64,8 @@ public class ManagePlayers {
             case 2: {
                 List<TransferOffer> onWaitList =
                         recievedOffers.stream().filter(offer -> offer.getResponse().equals(EOfferResponse.ON_WAIT)).toList();
-                if (!recievedOffers.isEmpty()) {
+                displayOffers(onWaitList);
+                if (!onWaitList.isEmpty()) {
                     Optional<TransferOffer> transferOffer = selectRecieved(onWaitList);
                     transferOffer.ifPresent(this::replyOffer);
                 }
@@ -74,22 +75,33 @@ public class ManagePlayers {
                 break;
             }
             case 3: {
-                List<TransferOffer> onWaitList =
+                List<TransferOffer> previousOffers =
                         recievedOffers.stream().filter(offer ->
                                         offer.getResponse().equals(EOfferResponse.ACCEPTED) ||
                                                 offer.getResponse().equals(EOfferResponse.REJECTED))
                                 .toList();
+                displayOffers(previousOffers);
                 if (!recievedOffers.isEmpty()) {
-                    selectRecieved(onWaitList);
+                    selectRecieved(previousOffers);
                 }
                 break;
             }
-
             case 4: {// Exit..
                 return false;
             }
         }
         return true;
+    }
+
+    private void displayOffers(List<TransferOffer> offerList) {
+        if (!offerList.isEmpty()) {
+            int counter = 1;
+            for (TransferOffer offers : offerList) {
+                System.out.println(counter + "- " + offers.getMessage() + " From: " + offers.getProposer().getTeamName());
+                counter++;
+            }
+            System.out.println();
+        }
     }
 
     private void replyOffer(TransferOffer transferOffer) {
@@ -123,18 +135,6 @@ public class ManagePlayers {
             }
         }
         return Optional.empty();
-    }
-
-    private List<TransferOffer> getRecievedOffers() {
-        List<TransferOffer> offersForReceiver = transferOfferController.getOffersForReceiver(manager);
-        if (!offersForReceiver.isEmpty()) {
-            int counter = 1;
-            for (TransferOffer offers : offersForReceiver) {
-                System.out.println(counter + "- " + offers.getMessage() + " From: " + offers.getProposer().getTeamName());
-                counter++;
-            }
-        }
-        return offersForReceiver;
     }
 
 
