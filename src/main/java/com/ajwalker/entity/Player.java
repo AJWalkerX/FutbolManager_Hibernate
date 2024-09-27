@@ -27,4 +27,17 @@ public class Player extends Person {
     @ManyToOne
     private Team team;
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                "name= "+ getName() +
+                ", position=" + position +
+                ", skillLevel=" + skillLevel +
+                ", value=" + value +
+                ", salary=" + salary +
+                ", age=" + age +
+                ", team=" + team.getTeamName() +
+                '}';
+    }
 }

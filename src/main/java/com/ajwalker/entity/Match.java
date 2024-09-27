@@ -23,6 +23,7 @@ public class Match extends BaseEntity {
 
     @Transient
     static Integer matchIdCounter = 0;
+
     private Long homeTeamId;
     private Long awayTeamId;
 

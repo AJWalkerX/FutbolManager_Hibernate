@@ -1,13 +1,7 @@
 package com.ajwalker.utility.Data;
 
-import com.ajwalker.entity.Fixture;
-import com.ajwalker.entity.League;
-import com.ajwalker.entity.Match;
-import com.ajwalker.entity.Season;
-import com.ajwalker.repository.FixtureRepository;
-import com.ajwalker.repository.LeagueRepository;
-import com.ajwalker.repository.MatchRepository;
-import com.ajwalker.repository.SeasonRepository;
+import com.ajwalker.entity.*;
+import com.ajwalker.repository.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -133,7 +127,13 @@ public class FixtureGenerator {
             }
             matchDate = matchDate.plusDays(7);
         }
+        MatchStatsRepository matchStatsRepository = MatchStatsRepository.getInstance();
+        for (Match match : matches) {
+            MatchStats matchStats = MatchStats.builder().match(match).build();
+            matchStatsRepository.save(matchStats);
+        }
         matchRepository.saveAll(matches);
+
         return new HashMap<>();
     }
 

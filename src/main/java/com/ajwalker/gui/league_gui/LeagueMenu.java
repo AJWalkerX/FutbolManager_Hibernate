@@ -112,7 +112,7 @@ public class LeagueMenu {
     }
 
 
-    private League selectLeague() {
+    public League selectLeague() {
         displayAllLeagues();
         int choice = getIntUserInput("Select League: ");
         if(choice >0 && choice<=leagueController.findAll().size()){

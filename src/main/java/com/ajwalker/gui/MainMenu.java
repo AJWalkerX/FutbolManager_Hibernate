@@ -4,6 +4,7 @@ import com.ajwalker.entity.Manager;
 import com.ajwalker.gui.league_gui.LeagueMenu;
 import com.ajwalker.gui.manager_gui.ManagerDashboard;
 import com.ajwalker.gui.manager_gui.ManagerLoginRegister;
+import com.ajwalker.gui.match_gui.MatchMenu;
 
 import java.util.Optional;
 import static com.ajwalker.utility.ConsoleTextUtils.*;
@@ -53,7 +54,7 @@ public class MainMenu {
                 break;
             }
             case 2:{// Play Match
-                //TODO: League sor ondan sonra mach menusune aktar!
+                MatchMenu.getInstance().matchMenu(manager);
                 break;
             }
             case 3:{ //League Menu
@@ -93,7 +94,7 @@ public class MainMenu {
                 break;
             }
             case 2:{// Play Match
-                //TODO: League sor ondan sonra mach menusune aktar!
+                MatchMenu.getInstance().matchMenu(manager);
                 break;
             }
             case 3:{ //League Menu
