@@ -12,6 +12,7 @@ import java.util.List;
 public class MatchService extends ServiceManager<Match, Long> {
     MatchRepository matchRepository = MatchRepository.getInstance();
     StatsRepository statsRepository = StatsRepository.getInstance();
+    SeasonRepository seasonRepository = SeasonRepository.getInstance();
 
     private static MatchService instance;
 
@@ -35,7 +36,7 @@ public class MatchService extends ServiceManager<Match, Long> {
         return new ArrayList<>();
     }
 
-    public void playMatch() {
+    public void playMatch(Season season) {
         List<Match> matches = matchRepository.findByFieldNameAndValue("isPlayed", false).
                 stream().filter(match -> {
                     Team homeTeam = TeamRepository.getInstance().findById(match.getHomeTeamId()).get();
@@ -52,6 +53,10 @@ public class MatchService extends ServiceManager<Match, Long> {
 
         updatePoints(match, homeTeam, awayTeam);
         match.setPlayed(true);
+        if (season.getCurrentDate() != match.getMatchDate()) {
+            season.setCurrentDate(match.getMatchDate());
+            seasonRepository.update(season);
+        }
         matchRepository.update(match);
     }
 

@@ -7,6 +7,7 @@ import com.ajwalker.gui.league_gui.LeagueMenu;
 import com.ajwalker.gui.manager_gui.ManagerLoginRegister;
 import com.ajwalker.service.MatchService;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static com.ajwalker.utility.ConsoleTextUtils.*;
@@ -46,14 +47,15 @@ public class MatchMenu {
         printMenuOptions("Play a Match","Play Several Match","Play All Matches",
                 "Show Played Matches","Show Standings",
                 "Return To Main Menu");
-
+        LocalDate currentDate = league.getSeason().getCurrentDate();
+        printSuccessMessage("Current date: "+ currentDate.toString());
         return matchInfoMenuOptions(getIntUserInput("Select: "));
     }
 
     private boolean matchInfoMenuOptions(int userInput) {
         switch(userInput){
             case 1:
-                MatchService.getInstance().playMatch();
+                MatchService.getInstance().playMatch(league.getSeason());
                 break;
             case 2:
                 break;
