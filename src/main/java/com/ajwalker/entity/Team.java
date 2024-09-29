@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -29,7 +30,7 @@ public class Team  extends BaseEntity{
     private League league;
 
     @OneToMany(mappedBy = "team")
-    List<Player> players;
+    private List<Player> players = new ArrayList<>();
 
 
 }
