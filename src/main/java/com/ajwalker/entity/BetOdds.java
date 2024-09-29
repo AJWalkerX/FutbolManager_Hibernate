@@ -1,10 +1,13 @@
 package com.ajwalker.entity;
 
+import com.ajwalker.utility.enums.EBetOddsState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +20,23 @@ public class BetOdds extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double homeTeamWins;
-    private Double awayTeamWins;
-    private Double draw;
-    private Double totalGoalsEqual3OrMore;
-    private Double totalGoalsEqual2OrLess;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal homeTeamWins;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal awayTeamWins;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal draw;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal totalGoalsEqual3OrMore;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal totalGoalsEqual2OrLess;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
+    private EBetOddsState eBetOddsState;
+
+
+
+    @ManyToOne
     private Match match;
 
 }

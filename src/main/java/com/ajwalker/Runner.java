@@ -1,32 +1,21 @@
 package com.ajwalker;
 
-import com.ajwalker.controller.LeagueController;
-import com.ajwalker.controller.MatchController;
-import com.ajwalker.controller.SeasonController;
-import com.ajwalker.entity.*;
 import com.ajwalker.gui.MainMenu;
-import com.ajwalker.gui.manager_gui.ManagePlayers;
-import com.ajwalker.model.LeagueModel;
-import com.ajwalker.model.MatchModel;
-import com.ajwalker.repository.LeagueRepository;
-import com.ajwalker.repository.MatchRepository;
-import com.ajwalker.repository.TeamRepository;
+import com.ajwalker.service.MatchService;
 import com.ajwalker.utility.Data.DemoData;
-import com.ajwalker.utility.Data.FixtureGenerator;
 import com.ajwalker.utility.HibernateConnection;
-import com.ajwalker.utility.enums.ERegion;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
 		
-		DemoData.GenerateDemonData();
+//		DemoData.GenerateDemonData();
 //		welcomeMassege();
-//		MainMenu mainMenu = MainMenu.getInstance();
-//		mainMenu.mainMenu();
+		MainMenu mainMenu = MainMenu.getInstance();
+		mainMenu.mainMenu();
+
 
 
 
