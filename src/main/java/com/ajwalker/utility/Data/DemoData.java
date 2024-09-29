@@ -42,7 +42,7 @@ public class DemoData {
     }
 
     private static void createSeasons(){
-        Season season = Season.builder().BEGINNING_OF_SEASON(LocalDate.of(2024,8,8))
+        Season season = Season.builder().BEGINNING_OF_SEASON(LocalDate.of(2024,8,9))
                 .title("2024-2025 TRENDYOL SUPER LEAGUE SEASON").currentDate(LocalDate.of(2024,8,8))
                 .build();
         List<Season> seasons = new ArrayList<>();
@@ -273,9 +273,11 @@ public class DemoData {
     private static void createBetOdds(){
         List<Match> matches = MatchRepository.getInstance().findAll();
         for(Match match : matches){
-           BetOdds betOdds = BetOddsEngine.getMatchBetOdds(match);
+            if(match.getHomeTeamId()!=20L && match.getAwayTeamId()!=20L){ //Bay takım exception fırlatmasın diye yaptım
+                BetOdds betOdds = BetOddsEngine.getMatchBetOdds(match);
+                BetOddsRepository.getInstance().save(betOdds);
+            }
 
-            BetOddsRepository.getInstance().save(betOdds);
         }
     }
 

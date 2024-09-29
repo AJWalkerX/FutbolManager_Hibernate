@@ -16,4 +16,5 @@ public class BetRepository extends RepositoryManager<Bet,Long>{
         }
         return instance;
     }
+
 }

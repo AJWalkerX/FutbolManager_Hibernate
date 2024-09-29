@@ -4,7 +4,6 @@ import com.ajwalker.entity.*;
 import com.ajwalker.repository.*;
 import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.engine.MatchEngine;
-import com.ajwalker.utility.enums.EState;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -82,7 +81,22 @@ public class MatchService extends ServiceManager<Match, Long> {
         statsRepository.updateAll(List.of(homeTeam, awayTeam));
     }
 
-    public List<Match> displayWeeklyBets(){
+    public List<Match> getWeeklyFixture(){ //tüm maçları oynanan hafta varsa onu es geçip bir dahaki haftayı listelicek.
+        int week;
+
+        List<Match> matches = matchRepository.findAll().stream()
+                .filter(m->m.getHomeTeamId()!=20L && m.getAwayTeamId()!=20L).sorted(Comparator.comparing(Match::getMatchDate)).toList();
+        for(int i =9;i<=matches.size();i+=9){
+            Match match1 = matches.get(i-1);
+            Match match2 = matches.get(i-2);
+            if(!match1.isPlayed() || !match2.isPlayed()){
+                List<Match> weeklyFixture = matches.stream().skip(i-9).limit(9).toList();
+                week = i/9;
+                System.out.println("Week "+week+" Program");
+                return weeklyFixture.stream().sorted(Comparator.comparing(Match::getMatchDate)).toList();
+            }
+        }
+
         return new ArrayList<>();
     }
 }

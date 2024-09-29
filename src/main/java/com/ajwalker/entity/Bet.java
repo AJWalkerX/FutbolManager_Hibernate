@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class Bet extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double totaBetOdd;
-    private Double betAmount;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal totalBetOdd;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal betAmount;
 
     @Enumerated(EnumType.STRING)
-    private EBetState betState;
+    private EBetState betState = EBetState.ON_WAIT;
 
 
     @OneToMany

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -21,6 +23,6 @@ public class Gambler extends Person{
     private String username;
     private String password;
 
-    @ManyToOne
-    private Bet bet;
+    @OneToMany
+    private List<Bet> betList;
 }
