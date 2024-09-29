@@ -6,6 +6,8 @@ import com.ajwalker.controller.StadiumController;
 import com.ajwalker.controller.TeamController;
 import com.ajwalker.entity.*;
 import com.ajwalker.repository.*;
+import com.ajwalker.utility.HibernateConnection;
+import com.ajwalker.utility.engine.BetOddsEngine;
 import com.ajwalker.utility.enums.EDivision;
 import com.ajwalker.utility.enums.EPosition;
 import com.ajwalker.utility.enums.ERegion;
@@ -34,6 +36,8 @@ public class DemoData {
         setTeamSquads();
         createManagers();
         FixtureGenerator.createFixture();
+        createGambler();
+        createBetOdds();
 
     }
 
@@ -258,6 +262,21 @@ public class DemoData {
         List<Manager> managerList = new ArrayList<>(List.of(manager1,manager2,manager3,manager4,manager5,manager6,manager7,manager8,manager9,manager10,
         manager11,manager12,manager13,manager14,manager15,manager16,manager17,manager18,manager19));
         ManagerRepository.getInstance().saveAll(managerList);
+    }
+
+    private static void createGambler(){
+        Gambler gambler1 = Gambler.builder().name("Ezel Bayraktar").accountBalance(25_000.00).username("ezel")
+                .password("1234").age(43).build();
+        GamblerRepository.getInstance().save(gambler1);
+    }
+
+    private static void createBetOdds(){
+        List<Match> matches = MatchRepository.getInstance().findAll();
+        for(Match match : matches){
+           BetOdds betOdds = BetOddsEngine.getMatchBetOdds(match);
+
+            BetOddsRepository.getInstance().save(betOdds);
+        }
     }
 
 

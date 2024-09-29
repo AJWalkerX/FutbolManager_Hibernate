@@ -18,6 +18,9 @@
         <class>com.ajwalker.entity.ContractOffer</class>
         <class>com.ajwalker.entity.Stats</class>
         <class>com.ajwalker.entity.MatchStats</class>
+        <class>com.ajwalker.entity.Gambler</class>
+        <class>com.ajwalker.entity.Bet</class>
+        <class>com.ajwalker.entity.BetOdds</class>
 
 
 
@@ -42,7 +45,7 @@
             <property name="hibernate.use_sql_comments" value="false"/>
 
             <property name="hibernate.hbm2ddl.auto"
-                      value="update" />
+                      value="create" />
         </properties>
 
     </persistence-unit>

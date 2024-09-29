@@ -1,6 +1,7 @@
 package com.ajwalker.gui;
 
 import com.ajwalker.entity.Manager;
+import com.ajwalker.gui.iddaa_gui.IddaaMenu;
 import com.ajwalker.gui.league_gui.LeagueMenu;
 import com.ajwalker.gui.manager_gui.ManagerDashboard;
 import com.ajwalker.gui.manager_gui.ManagerLoginRegister;
@@ -82,6 +83,7 @@ public class MainMenu {
                 "Play Match",
                 "League Menu",
                 "Fedaration Login (In development...)",
+                "Go oynakazan.com",
                 "Exit");
         return anonymousMainMenuOptions(getIntUserInput("Select: "));
     }
@@ -105,7 +107,12 @@ public class MainMenu {
                 System.out.println("In development...");
                 break;
             }
-            case 5:{// Exit..
+            case 5:{
+                IddaaMenu iddaaMenu = new IddaaMenu();
+                iddaaMenu.iddaaMenu();
+                break;
+            }
+            case 6:{// Exit..
                 printSuccessMessage("Gülü Gülü....");
                 return false;
             }

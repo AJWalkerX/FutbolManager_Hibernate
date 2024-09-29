@@ -81,6 +81,10 @@ public class MatchService extends ServiceManager<Match, Long> {
         awayTeam.setPoints((awayTeam.getTotalWins() * 3) + awayTeam.getTotalDraws());
         statsRepository.updateAll(List.of(homeTeam, awayTeam));
     }
+
+    public List<Match> displayWeeklyBets(){
+        return new ArrayList<>();
+    }
 }
 
 

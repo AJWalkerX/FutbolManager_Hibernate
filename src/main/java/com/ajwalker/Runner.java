@@ -3,16 +3,14 @@ package com.ajwalker;
 import com.ajwalker.controller.LeagueController;
 import com.ajwalker.controller.MatchController;
 import com.ajwalker.controller.SeasonController;
-import com.ajwalker.entity.Fixture;
-import com.ajwalker.entity.League;
-import com.ajwalker.entity.Match;
-import com.ajwalker.entity.Season;
+import com.ajwalker.entity.*;
 import com.ajwalker.gui.MainMenu;
 import com.ajwalker.gui.manager_gui.ManagePlayers;
 import com.ajwalker.model.LeagueModel;
 import com.ajwalker.model.MatchModel;
 import com.ajwalker.repository.LeagueRepository;
 import com.ajwalker.repository.MatchRepository;
+import com.ajwalker.repository.TeamRepository;
 import com.ajwalker.utility.Data.DemoData;
 import com.ajwalker.utility.Data.FixtureGenerator;
 import com.ajwalker.utility.HibernateConnection;
@@ -25,10 +23,10 @@ public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
 		
-//		DemoData.GenerateDemonData();
-		welcomeMassege();
-		MainMenu mainMenu = MainMenu.getInstance();
-		mainMenu.mainMenu();
+		DemoData.GenerateDemonData();
+//		welcomeMassege();
+//		MainMenu mainMenu = MainMenu.getInstance();
+//		mainMenu.mainMenu();
 
 
 
