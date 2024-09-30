@@ -1,10 +1,13 @@
 package com.ajwalker;
 
+import com.ajwalker.entity.League;
 import com.ajwalker.gui.MainMenu;
+import com.ajwalker.repository.LeagueRepository;
 import com.ajwalker.service.MatchService;
 import com.ajwalker.utility.Data.DemoData;
 import com.ajwalker.utility.HibernateConnection;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,17 +15,12 @@ import java.util.Scanner;
 public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
-
-//		DemoData.GenerateDemonData();
-////		welcomeMassege();
+		
+		//DemoData.GenerateDemonData();
+		welcomeMassege();
 		MainMenu mainMenu = MainMenu.getInstance();
 		mainMenu.mainMenu();
-
-
-
-
-
-
+		
 		
 		
 		HibernateConnection.em.getTransaction().commit();
