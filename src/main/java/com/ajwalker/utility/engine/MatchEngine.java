@@ -22,43 +22,62 @@ public class MatchEngine {
 
     public static void simulateMatch(Match match) {
         MatchStats matchStats = calculateTeamPassDistribution(match);
-
-        Team homeTeam = getTeamById(match.getHomeTeamId());
-        Team awayTeam = getTeamById(match.getAwayTeamId());
-
+        
+        Team homeTeam = teamRepository.findById(match.getHomeTeamId()).get();
+        Team awayTeam = teamRepository.findById(match.getAwayTeamId()).get();
+        
+        
         int totalPass = matchStats.getAwayTeam_Passes() + matchStats.getHomeTeam_Passes();
         int homeTeamBallPercantage = matchStats.getHomeTeamBallPercantage();
-
+        
+        
+        Team attackingTeam;
+        Team defenceTeam;
         for (int i = 0; i < totalPass; i++) {
-            double chance = Math.random();
-            if (chance <= EVENT_POSSIBILITY) {
-                Team attackingTeam = decideAttackingTeam(homeTeam, awayTeam, homeTeamBallPercantage);
-                Team defenceTeam = attackingTeam == homeTeam ? awayTeam : homeTeam;
-
-                if (makeFinalPass(attackingTeam) && takeShot(attackingTeam)) {
-                    if (!makeSave(defenceTeam)) {
-                        updateScore(match, attackingTeam, homeTeam);
+            double olasilik = Math.random();
+            if (olasilik <= EVENT_POSSIBILITY) {//pas yapıp pozisyona girmedikce pozisyona girme olasiligi %sel artsın.
+                int rasgele = random.nextInt(101);
+                if (rasgele < homeTeamBallPercantage) {
+                    attackingTeam = homeTeam;
+                    defenceTeam = awayTeam;
+                } else {
+                    attackingTeam = awayTeam;
+                    defenceTeam = homeTeam;
+                }
+                if (makeFinalPass(attackingTeam)) {
+                    if (takeShot(attackingTeam)) {
+                        if(attackingTeam==homeTeam){
+                            matchStats.setHomeTeam_Shots(matchStats.getHomeTeam_Shots()+1);
+                        }
+                        else{
+                            matchStats.setAwayTeam_Shots(matchStats.getAwayTeam_Shots()+1);
+                        }
+                        if (!makeSave(defenceTeam)) {
+                            System.out.println("GOOOOOOOLLLL " + attackingTeam.getTeamName() + " scores amazing goal!!!");
+                            if (attackingTeam == homeTeam) {
+                                match.setHomeTeamScore(match.getHomeTeamScore() + 1);
+                                System.out.println("Score = " + match.getHomeTeamScore() + " - " + match.getAwayTeamScore());
+                            } else {
+                                match.setAwayTeamScore(match.getAwayTeamScore() + 1);
+                                System.out.println("Score = " + match.getHomeTeamScore() + " - " + match.getAwayTeamScore());
+                            }
+                            
+                        }else{
+                            if(attackingTeam==homeTeam){
+                                matchStats.setAwayTeam_Saves(matchStats.getAwayTeam_Saves()+1);
+                            }
+                            else{
+                                matchStats.setHomeTeam_Saves(matchStats.getHomeTeam_Saves()+1);
+                                
+                            }
+                        }
                     }
                 }
             }
         }
+        matchStatsRepository.update(matchStats);
     }
-
-    private static Team decideAttackingTeam(Team homeTeam, Team awayTeam, int homeTeamBallPercantage) {
-        int randomValue = random.nextInt(101);
-        return randomValue < homeTeamBallPercantage ? homeTeam : awayTeam;
-    }
-
-    private static void updateScore(Match match, Team attackingTeam, Team homeTeam) {
-        System.out.println("GOOOOOOOLLLL " + attackingTeam.getTeamName() + " scores amazing goal!!!");
-        if (attackingTeam == homeTeam) {
-            match.setHomeTeamScore(match.getHomeTeamScore() + 1);
-        } else {
-            match.setAwayTeamScore(match.getAwayTeamScore() + 1);
-        }
-        System.out.println("Score = " + match.getHomeTeamScore() + " - " + match.getAwayTeamScore());
-    }
-
+    
     private static Team getTeamById(Long teamId) {
         Optional<Team> team = teamRepository.findById(teamId);
         return team.orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
@@ -91,6 +110,7 @@ public class MatchEngine {
         matchStats.setAwayTeam_Passes(awayTeamPasses);
         matchStats.setHomeTeamBallPercantage(homeTeamPassPercentage);
         matchStats.setAwayTeamBallPercantage(awayTeamPassPercentage);
+        matchStatsRepository.update(matchStats);
 
         return matchStats;
     }
@@ -136,13 +156,12 @@ public class MatchEngine {
     }
 
     private static Player selectRandomPlayer(Team team, EPosition... positions) {
-//        List<Player> players = playerRepository.findAll().stream()
-//                .filter(p -> p.getTeam().equals(team))
-//                .filter(p -> List.of(positions).contains(p.getPosition()))
-//                .toList();
-
-        List<Player> players = team.getPlayers();
-
+        List<Player> players = playerRepository.findAll().stream()
+                .filter(p -> p.getTeam().equals(team))
+                .filter(p -> List.of(positions).contains(p.getPosition()))
+                .toList();
         return players.get(random.nextInt(players.size()));
     }
+    
+    
 }
