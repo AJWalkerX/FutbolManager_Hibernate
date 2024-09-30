@@ -21,6 +21,7 @@
         <class>com.ajwalker.entity.Gambler</class>
         <class>com.ajwalker.entity.Bet</class>
         <class>com.ajwalker.entity.BetOdds</class>
+        <class>com.ajwalker.entity.BetSelectionMap</class>
 
 
 

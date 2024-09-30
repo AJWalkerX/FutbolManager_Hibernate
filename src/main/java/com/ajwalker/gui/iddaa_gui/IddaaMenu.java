@@ -1,28 +1,27 @@
 package com.ajwalker.gui.iddaa_gui;
 
-import com.ajwalker.entity.Bet;
-import com.ajwalker.entity.BetOdds;
-import com.ajwalker.entity.Gambler;
-import com.ajwalker.entity.Match;
+import com.ajwalker.entity.*;
 import com.ajwalker.model.BetOddsModel;
 import com.ajwalker.repository.GamblerRepository;
 import com.ajwalker.service.BetOddsService;
+import com.ajwalker.service.BetService;
 import com.ajwalker.service.MatchService;
 import com.ajwalker.utility.enums.EBetState;
+import com.ajwalker.utility.enums.EOddSelection;
 
 import static com.ajwalker.utility.ConsoleTextUtils.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class IddaaMenu {
     private Gambler gambler;
     private GamblerRepository gamblerRepository = GamblerRepository.getInstance();
     private MatchService matchService = MatchService.getInstance();
     private BetOddsService betOddsService = BetOddsService.getInstance();
+    private BetService betService = BetService.getInstance();
     private Bet bet;
+    private Map<BetOdds, EOddSelection> selectionMap;
 
     public void iddaaMenu() {
         boolean opt = true;
@@ -38,6 +37,10 @@ public class IddaaMenu {
     }
 
     private boolean loginRegisterMenuOptions(int userInput) {
+        bet = Bet.builder()
+                .betState(EBetState.ON_WAIT).totalBetOdd(BigDecimal.valueOf(1.0)).build();
+        selectionMap = new HashMap<>();
+
         switch (userInput) {
             case 1:
                 Optional<Gambler> gamblerOptional = loginGambler();
@@ -57,25 +60,35 @@ public class IddaaMenu {
     }
 
     private Optional<Gambler> loginGambler() {
-        String username  = getStringUserInput("Username:");
+        String username = getStringUserInput("Username:");
         String password = getStringUserInput("Password:");
         return gamblerRepository.findByUsernameAndPassword(username, password);
     }
 
-    private boolean oynaKazanMenu(){
-        printMenuOptions("Place a new bet","List my previous bets","Return To Main Menu");
+    private boolean oynaKazanMenu() {
+
+
+        printMenuOptions("Add a match to your bet",
+                "Preview your current bet",
+                "Complete your bet",
+                "List my previous bets",
+                "Return To Main Menu");
         int selection = getIntUserInput("Selection:");
-        switch (selection){
+        switch (selection) {
             case 1:
-                bet = Bet.builder().betOdds(new ArrayList<>()
-                ).betState(EBetState.ON_WAIT).totalBetOdd(BigDecimal.ZERO).build();
                 BetOdds betOdds = selectAMatchToPlaceBet();
                 addBetOdds(betOdds);
-                //Burdan devam edilecek. Kullanıcı maç için tahminde bulundduktan sonra o tahmini
-                // hafızada nasıl tutabilirsin onu düşün. belki enum ile.ESelection gibi.
                 oynaKazanMenu();
                 break;
             case 2:
+                System.out.println("Toplam oran: "+bet.getTotalBetOdd());
+                //BetModel -> displayCurrentBet oluşturulacak.
+                oynaKazanMenu();
+                    break;
+            case 3:
+                //Kumarbazın kuponu finishlemesi için
+                break;
+            case 4:
                 //kumarbazın geçmiş kuponlarını listele
                 oynaKazanMenu();
                 break;
@@ -83,25 +96,28 @@ public class IddaaMenu {
         return false;
     }
 
-    private BetOdds selectAMatchToPlaceBet(){
-        List<Match> matches  = matchService.getWeeklyFixture();
+    private BetOdds selectAMatchToPlaceBet() {
+        List<Match> matches = matchService.getWeeklyFixture();
         List<BetOdds> betOddsListByMatches = betOddsService.getBetOddsListByMatches(matches);
-        int counter =0;
+        int counter = 0;
         for (BetOdds betOdds : betOddsListByMatches) {
-            System.out.print(++counter+".");
+            System.out.print(++counter + ".");
             new BetOddsModel(betOdds).displayHomeTeamAndAwayTeamsName();
         }
 
         int selection = getIntUserInput("Select a match number to place a bet: ");
-        if(selection>0 && selection<=betOddsListByMatches.size()){
-            return betOddsListByMatches.get(selection-1);
+        if (selection > 0 && selection <= betOddsListByMatches.size()) {
+            return betOddsListByMatches.get(selection - 1);
         }
         System.out.println("Invalid choice. Please try again later.");
         return null;
     }
 
-    private void addBetOdds(BetOdds betOdds){
+    //HOME_TEAM_WINS,AWAY_TEAM_WINS,DRAW,UST,ALT
+    private void addBetOdds(BetOdds betOdds) {
         new BetOddsModel(betOdds).displayBetOdd();
+        int selection = getIntUserInput("Selection:");
+        betService.addOddsToBet(bet, betOdds, selection,selectionMap);
     }
 
 

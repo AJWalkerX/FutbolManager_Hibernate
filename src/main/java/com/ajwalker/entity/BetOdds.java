@@ -33,6 +33,7 @@ public class BetOdds extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private EBetOddsState eBetOddsState;
+    
 
 
 

@@ -5,16 +5,20 @@ import com.ajwalker.service.MatchService;
 import com.ajwalker.utility.Data.DemoData;
 import com.ajwalker.utility.HibernateConnection;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
-		
+
 //		DemoData.GenerateDemonData();
-//		welcomeMassege();
+////		welcomeMassege();
 		MainMenu mainMenu = MainMenu.getInstance();
 		mainMenu.mainMenu();
+
+
 
 
 
