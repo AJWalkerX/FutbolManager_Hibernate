@@ -16,7 +16,7 @@ public class Runner {
 	public static void main(String[] args) {
 		HibernateConnection.beginConnection();
 		
-		//DemoData.GenerateDemonData();
+//		DemoData.GenerateDemonData();
 		welcomeMassege();
 		MainMenu mainMenu = MainMenu.getInstance();
 		mainMenu.mainMenu();

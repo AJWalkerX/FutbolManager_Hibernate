@@ -36,11 +36,12 @@ public class TransferOfferController {
         return new ArrayList<>();
     }
 
-    public void replyToOffer(TransferOffer transferOffer, int userReplySelection) {
+    public TransferOffer replyToOffer(TransferOffer transferOffer, int userReplySelection) {
         try {
             transferOfferService.replyToOffer(transferOffer,userReplySelection);
         } catch (Exception e) {
             ConsoleTextUtils.printErrorMessage("Controller Error: " + e.getMessage());
         }
+        return transferOffer;
     }
 }

@@ -2,8 +2,11 @@ package com.ajwalker.gui.league_gui;
 
 import com.ajwalker.controller.TeamController;
 import com.ajwalker.entity.League;
+import com.ajwalker.entity.Match;
 import com.ajwalker.entity.Team;
 import com.ajwalker.model.LeagueModel;
+import com.ajwalker.model.MatchModel;
+import com.ajwalker.service.MatchService;
 
 
 import java.util.List;
@@ -48,7 +51,10 @@ public class DetailedLeagueMenu {
                 new LeagueModel(league).displayStandings();
                 break;
             case 4:
-                //TODO: Oynanan maçları görüntüle
+                List<Match> playedMatch = MatchService.getInstance().getPlayedMatches();
+                for(Match match : playedMatch) {
+                    new MatchModel(match).displayMatchScores();
+                }
                 break;
             case 5:
                 return false;

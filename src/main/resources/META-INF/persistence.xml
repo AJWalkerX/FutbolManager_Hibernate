@@ -18,6 +18,7 @@
         <class>com.ajwalker.entity.ContractOffer</class>
         <class>com.ajwalker.entity.Stats</class>
         <class>com.ajwalker.entity.MatchStats</class>
+        <class>com.ajwalker.entity.Transfer</class>
         <class>com.ajwalker.entity.Gambler</class>
         <class>com.ajwalker.entity.Bet</class>
         <class>com.ajwalker.entity.BetOdds</class>
