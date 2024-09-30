@@ -11,7 +11,7 @@ import com.ajwalker.utility.enums.EOfferResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransferOfferService extends ServiceManager<TransferOffer,Long> {
+public class TransferOfferService extends ServiceManager<TransferOffer, Long> {
 
     private static TransferOfferService instance;
     private static TransferOfferRepository transferOfferRepository = TransferOfferRepository.getInstance();
@@ -22,6 +22,7 @@ public class TransferOfferService extends ServiceManager<TransferOffer,Long> {
         super(TransferOfferRepository.getInstance());
 
     }
+
     public static TransferOfferService getInstance() {
         if (instance == null) {
             instance = new TransferOfferService();
@@ -34,41 +35,32 @@ public class TransferOfferService extends ServiceManager<TransferOffer,Long> {
         try {
             return transferOfferRepository.getOffersForReceiver(manager);
         } catch (Exception e) {
-            ConsoleTextUtils.printErrorMessage("Service Error: "+ e.getMessage());
+            ConsoleTextUtils.printErrorMessage("Service Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
-    public void replyToOffer(TransferOffer transferOffer, int userReplySelection) {
-        Player player = transferOffer.getPlayer();
-        Team proposer = transferOffer.getProposer();
-        Team receiver = transferOffer.getReceiver();
-        Long biddingMoney = transferOffer.getBiddingMoney();
+    public TransferOffer replyToOffer(TransferOffer transferOffer, int userReplySelection) {
+
 
         try {
             if (userReplySelection == 1) {
-                //TODO: Sözleşme görüşme aşaması eklenecek!!!
+
                 transferOffer.setResponse(EOfferResponse.ACCEPTED);
-                player.setTeam(proposer);
-                receiver.setBudget(receiver.getBudget()+biddingMoney);
-                proposer.setBudget(proposer.getBudget()-biddingMoney);
-                System.out.println("Transfer Accepted. Now "+ player.getName()+ " is leaving your team");
-                proposer.getPlayers().add(player);
-                receiver.getPlayers().remove(player);
-                teamService.updateAll(List.of(proposer,receiver));
-                playerService.update(player);
+
                 transferOfferRepository.update(transferOffer);
             } else if (userReplySelection == 2) {
                 transferOffer.setResponse(EOfferResponse.REJECTED);
                 transferOfferRepository.update(transferOffer);
                 System.out.println("You have rejected this offer!");
-            }else{
+            } else {
                 ConsoleTextUtils.printErrorMessage("Wrong selection!");
             }
         } catch (Exception e) {
-            ConsoleTextUtils.printErrorMessage("Service Error: "+ e.getMessage());
+            ConsoleTextUtils.printErrorMessage("Service Error: " + e.getMessage());
         }
-
-
+        return transferOffer;
     }
+
+
 }

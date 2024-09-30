@@ -3,11 +3,15 @@ package com.ajwalker.gui.manager_gui;
 import com.ajwalker.controller.ManagerController;
 import com.ajwalker.controller.PlayerController;
 import com.ajwalker.controller.TransferOfferController;
+import com.ajwalker.entity.ContractOffer;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.model.OffersModel;
 import com.ajwalker.model.PlayerModel;
+import com.ajwalker.service.ContractOfferService;
+import com.ajwalker.service.TransferOfferService;
+import com.ajwalker.service.TransferService;
 import com.ajwalker.utility.ConsoleTextUtils;
 import com.ajwalker.utility.enums.EOfferResponse;
 
@@ -23,6 +27,7 @@ public class ManagePlayers {
     ManagerController managerController = ManagerController.getInstance();
     PlayerController playerController = PlayerController.getInstance();
     TransferOfferController transferOfferController = TransferOfferController.getInstance();
+    ContractOfferService contractOfferService = ContractOfferService.getInstance();
 
     private final int starSize = 50;
 
@@ -45,6 +50,7 @@ public class ManagePlayers {
         printMenuOptions(starSize,
                 "Make an offer for player",
                 "Display offers for my team",
+                "Make contract offer for player",
                 "Display my previous offers",
                 "Return To Dashboard");
         return managePlayersMenuOptions(getIntUserInput("Select: "));
@@ -74,7 +80,18 @@ public class ManagePlayers {
 				}
                 break;
             }
-            case 3: {
+            case 3:{
+                TransferOffer transferOffer = selectSentAndAcceptedOffer();
+                if(transferOffer!=null){
+                    ContractOffer contractOffer = MakeAnContractOfferToPlayer(transferOffer);
+                    if(contractOffer.getResponse().equals(EOfferResponse.ACCEPTED)) {
+                        TransferService.getInstance().finalizeTransfer(contractOffer);
+                    }
+                }
+                break;
+
+            }
+            case 4: {
                 List<TransferOffer> previousOffers =
                         recievedOffers.stream().filter(offer ->
                                         offer.getResponse().equals(EOfferResponse.ACCEPTED) ||
@@ -86,7 +103,7 @@ public class ManagePlayers {
                 }
                 break;
             }
-            case 4: {// Exit..
+            case 5: {// Exit..
                 return false;
             }
         }
@@ -111,13 +128,12 @@ public class ManagePlayers {
             case 1: {
                 printMenuOptions("Accept Offer", "Reject Offer");
                 int userReplySelection = getIntUserInput("Select Reply: ");
-
                 transferOfferController.replyToOffer(transferOffer, userReplySelection);
-
                 break;
             }
         }
     }
+
 
     private Optional<TransferOffer> selectRecieved(List<TransferOffer> recievedOffers) {
         printMenuOptions("Select Offer", "Return To Dashboard");
@@ -172,6 +188,27 @@ public class ManagePlayers {
             });
             int intUserInput = getIntUserInput("Pick a player to offer: ");
             return playerList.get(intUserInput - 1);
+        }
+        return null;
+    }
+
+    private ContractOffer MakeAnContractOfferToPlayer(TransferOffer transferOffer) {
+        long salaryOffer = getIntUserInput("Place your contract offer for player:");
+        return contractOfferService.makeOfferToPlayer(transferOffer, salaryOffer);
+    }
+
+    private TransferOffer selectSentAndAcceptedOffer(){
+        List<TransferOffer> list = TransferOfferService.getInstance().findAll().stream()
+                .filter(t->t.getProposer()==manager.getTeam())
+                .filter(t -> t.getResponse().equals(EOfferResponse.ACCEPTED))
+                .toList();
+        int counter = 0;
+        for(TransferOffer offer : list){
+            System.out.println(++counter + " : " + offer.getResponse());
+        }
+        int selection = getIntUserInput("Select offer to continue:");
+        if(selection>0 && selection<=list.size()){
+            return list.get(selection-1);
         }
         return null;
     }

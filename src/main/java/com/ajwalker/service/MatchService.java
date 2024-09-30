@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import static com.ajwalker.utility.ConsoleTextUtils.getIntUserInput;
 
@@ -57,10 +56,7 @@ public class MatchService extends ServiceManager<Match, Long> {
 		
 		updatePoints(match, homeTeam, awayTeam);
 		match.setPlayed(true);
-//		if (season.getCurrentDate() != match.getMatchDate()) {
-//			season.setCurrentDate(match.getMatchDate());
-//			seasonRepository.update(season);
-//		}
+
 		matchRepository.update(match);
 		return match;
 	}
@@ -93,7 +89,7 @@ public class MatchService extends ServiceManager<Match, Long> {
 		statsRepository.updateAll(List.of(homeTeam, awayTeam));
 	}
 	
-	public List<Match> getWeeklyFixture() { //tüm maçları oynanan hafta varsa onu es geçip bir dahaki haftayı
+	public List<Match> getCurrentWeeksFixture() { //tüm maçları oynanan hafta varsa onu es geçip bir dahaki haftayı
 		// listelicek.
 		int week;
 		
@@ -170,5 +166,17 @@ public class MatchService extends ServiceManager<Match, Long> {
 		
 		matchRepository.update(match);
 		
+	}
+
+	public List<Match> getPlayedMatches(){
+		return matchRepository.findAll().stream()
+				.filter(Match::isPlayed).toList();
+	}
+
+	public List<Match> getWeeklyFixture(int week){
+		return matchRepository.findAll().stream()
+				.filter(m -> !m.getHomeTeamId().equals(20L) && !m.getAwayTeamId().equals(20L))
+				.sorted(Comparator.comparing(Match::getMatchDate))
+				.skip((week - 1) * 9).limit(9).toList();
 	}
 }

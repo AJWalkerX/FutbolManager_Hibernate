@@ -97,7 +97,7 @@ public class IddaaMenu {
     }
 
     private BetOdds selectAMatchToPlaceBet() {
-        List<Match> matches = matchService.getWeeklyFixture();
+        List<Match> matches = matchService.getCurrentWeeksFixture();
         List<BetOdds> betOddsListByMatches = betOddsService.getBetOddsListByMatches(matches);
         int counter = 0;
         for (BetOdds betOdds : betOddsListByMatches) {

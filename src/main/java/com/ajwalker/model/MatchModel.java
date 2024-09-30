@@ -1,10 +1,7 @@
 package com.ajwalker.model;
 
 import com.ajwalker.controller.TeamController;
-import com.ajwalker.entity.League;
-import com.ajwalker.entity.Match;
-import com.ajwalker.entity.Stadium;
-import com.ajwalker.entity.Team;
+import com.ajwalker.entity.*;
 
 import java.time.LocalDate;
 
@@ -47,17 +44,29 @@ public class MatchModel {
 		System.out.println("Match Date          : " + matchDate);
 		System.out.println("--------------------------------------------------");
 	}
+
+	public void displayMatchScores() {
+
+		String formattedString = String.format("%-15s   %s - %s     %-20s %-10s",
+				homeTeamName,
+				(isPlayed ? homeTeamScore : "N/A"),
+				(isPlayed ? awayTeamScore : "N/A"),
+				awayTeamName,
+				matchDate);
+		System.out.println(formattedString);
+	}
 	
-//	public  void displayMatchStats(MatchStats matchStats){
-//		System.out.println("Match ID:           : " + matchId);
-//		System.out.println(homeTeamName + " " + homeTeamScore + "-" + awayTeamScore + " " + awayTeamName + " statistics");
-//		System.out.println("--------------------------------------------");
-//		System.out.printf("%-10s %-20s %-10s\n", "%" + matchStats.getHomeTeamBallPercantage(), "Ball Possession", "%" + matchStats.getAwayTeamBallPercantage());
-//		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Passes(), "Total Passes", matchStats.getAwayTeam_Passes());
-//		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Shots(), "Total Shots", matchStats.getAwayTeam_Shots());
-//		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_fouls(), "Total Fouls", matchStats.getAwayTeam_fouls());
-//		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Saves(), "Total Saves", matchStats.getAwayTeam_Saves());
-//
-	
+	public  void displayMatchStats(MatchStats matchStats) {
+		System.out.println("--------------------------------------------");
+		System.out.println("Match ID:           : " + matchId);
+		System.out.println(homeTeamName + " " + homeTeamScore + "-" + awayTeamScore + " " + awayTeamName + " statistics");
+		System.out.println("--------------------------------------------");
+		System.out.printf("%-10s %-20s %-10s\n", "%" + matchStats.getHomeTeamBallPercantage(), "Ball Possession", "%" + matchStats.getAwayTeamBallPercantage());
+		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Passes(), "Total Passes", matchStats.getAwayTeam_Passes());
+		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Shots(), "Total Shots", matchStats.getAwayTeam_Shots());
+		System.out.printf("%-10d %-20s %-10d\n", matchStats.getHomeTeam_Saves(), "Total Saves", matchStats.getAwayTeam_Saves());
+		System.out.println("--------------------------------------------");
+	}
+
 	
 	}
