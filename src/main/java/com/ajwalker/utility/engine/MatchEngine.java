@@ -18,7 +18,7 @@ public class MatchEngine {
    private static final PlayerRepository playerRepository = PlayerRepository.getInstance();
    private static final MatchStatsRepository matchStatsRepository = MatchStatsRepository.getInstance();
    private static Random random = new Random();
-   private static final double EVENT_POSSIBILITY = 0.03; // Moved magic number to a constant
+   private static final double EVENT_POSSIBILITY = 0.02; // Moved magic number to a constant
 
     public static void simulateMatch(Match match) {
         MatchStats matchStats = calculateTeamPassDistribution(match);
