@@ -70,61 +70,21 @@ public class ManagePlayers {
                 break;
             }
             case 2: {
-                List<TransferOffer> onWaitList =
-                        recievedOffers.stream().filter(offer -> offer.getResponse().equals(EOfferResponse.ON_WAIT)).toList();
-                displayOffers(onWaitList);
-                if (!onWaitList.isEmpty()) {
-                    Optional<TransferOffer> transferOffer = selectRecieved(onWaitList);
-                    transferOffer.ifPresent(this::replyOffer);
-                }
-				else{
-					System.out.println("No received offers");
-				}
+                showOnWaitOffers(recievedOffers);
                 break;
             }
             case 3:{
-                TransferOffer transferOffer = selectSentAndAcceptedOffer();
-                if(transferOffer!=null){
-                    ContractOffer contractOffer = MakeAnContractOfferToPlayer(transferOffer);
-                    if(contractOffer.getResponse().equals(EOfferResponse.ACCEPTED)) {
-                        TransferService.getInstance().finalizeTransfer(contractOffer);
-                    }
-                }
-                else{
-                    System.out.println("No Accepted offers! Your offers are on wait");
-                }
+                makePlayerContractOffer();
                 break;
 
             }
 
             case 4: {
-                List<TransferOffer> previousOffers =
-                        recievedOffers.stream().filter(offer ->
-                                        offer.getResponse().equals(EOfferResponse.ACCEPTED) ||
-                                                offer.getResponse().equals(EOfferResponse.REJECTED))
-                                .toList();
-                displayOffers(previousOffers);
-                if (!recievedOffers.isEmpty()) {
-                    selectRecieved(previousOffers);
-                }
-                else{
-                    System.out.println("No received offers");
-                }
+                showOffersHistory(recievedOffers);
                 break;
             }
             case 5: {
-                AtomicInteger counter = new AtomicInteger(1);
-                TransferRepository.getInstance().findAll().stream()
-                        .filter(transfer -> transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam()) ||
-                                transfer.getContractOffer().getTransferOffer().getReceiver().equals(manager.getTeam()))
-                        .forEach(transfer -> {
-                            System.out.print(counter.getAndIncrement() + "- ");
-                            String formattedString = String.format("%-15s  %s  %s",
-                                    transfer.getContractOffer().getTransferOffer().getPlayer().getName(),
-                                    transfer.getContractOffer().getTransferOffer().getBiddingMoney(),
-                                    transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam())? "BOUGHT" : "SOLD");
-                            System.out.println(formattedString);
-                        });
+                showTransferHistory();
                 break;
             }
             case 6: {// Exit..
@@ -132,6 +92,62 @@ public class ManagePlayers {
             }
         }
         return true;
+    }
+
+    private void showTransferHistory() {
+        AtomicInteger counter = new AtomicInteger(1);
+        TransferRepository.getInstance().findAll().stream()
+                .filter(transfer -> transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam()) ||
+                        transfer.getContractOffer().getTransferOffer().getReceiver().equals(manager.getTeam()))
+                .forEach(transfer -> {
+                    System.out.print(counter.getAndIncrement() + "- ");
+                    String formattedString = String.format("%-15s  %s  %s",
+                            transfer.getContractOffer().getTransferOffer().getPlayer().getName(),
+                            transfer.getContractOffer().getTransferOffer().getBiddingMoney(),
+                            transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam())? "BOUGHT" : "SOLD");
+                    System.out.println(formattedString);
+                });
+    }
+
+    private void makePlayerContractOffer() {
+        TransferOffer transferOffer = selectSentAndAcceptedOffer();
+        if(transferOffer!=null){
+            ContractOffer contractOffer = MakeAnContractOfferToPlayer(transferOffer);
+            if(contractOffer.getResponse().equals(EOfferResponse.ACCEPTED)) {
+                TransferService.getInstance().finalizeTransfer(contractOffer);
+            }
+        }
+        else{
+            System.out.println("No Accepted offers! Your offers are on wait");
+        }
+    }
+
+    private void showOffersHistory(List<TransferOffer> recievedOffers) {
+        List<TransferOffer> previousOffers =
+                recievedOffers.stream().filter(offer ->
+                                offer.getResponse().equals(EOfferResponse.ACCEPTED) ||
+                                        offer.getResponse().equals(EOfferResponse.REJECTED))
+                        .toList();
+        displayOffers(previousOffers);
+        if (!recievedOffers.isEmpty()) {
+            selectRecieved(previousOffers);
+        }
+        else{
+            System.out.println("No received offers");
+        }
+    }
+
+    private void showOnWaitOffers(List<TransferOffer> recievedOffers) {
+        List<TransferOffer> onWaitList =
+                recievedOffers.stream().filter(offer -> offer.getResponse().equals(EOfferResponse.ON_WAIT)).toList();
+        displayOffers(onWaitList);
+        if (!onWaitList.isEmpty()) {
+            Optional<TransferOffer> transferOffer = selectRecieved(onWaitList);
+            transferOffer.ifPresent(this::replyOffer);
+        }
+        else{
+            System.out.println("No received offers");
+        }
     }
 
     private void displayOffers(List<TransferOffer> offerList) {

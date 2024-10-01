@@ -43,7 +43,6 @@ public class ManagerLoginRegister {
 				break;
 			}
 			case 2: {
-				
 				return loginManager();
 			}
 		}
