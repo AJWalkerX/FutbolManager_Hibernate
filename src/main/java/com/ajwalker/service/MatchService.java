@@ -50,17 +50,29 @@ public class MatchService extends ServiceManager<Match, Long> {
 		Match match = matches.getFirst();
 		MatchEngine.simulateMatch(match);
 		
-		Stats homeTeam = statsRepository.findById(match.getHomeTeamId()).get();
-		Stats awayTeam = statsRepository.findById(match.getAwayTeamId()).get();
+		Stats homeTeamStats = statsRepository.findById(match.getHomeTeamId()).get();
+		Stats awayTeamStats = statsRepository.findById(match.getAwayTeamId()).get();
 		
 		
-		updatePoints(match, homeTeam, awayTeam);
+		updatePoints(match, homeTeamStats, awayTeamStats);
 		match.setPlayed(true);
 
 		matchRepository.update(match);
+		displayMatchScore(homeTeamStats, match, awayTeamStats);
 		return match;
 	}
-	
+
+	private static void displayMatchScore(Stats homeTeamStats, Match match, Stats awayTeamStats) {
+		System.out.println("---------------------------------------------------------------");
+		String formattedString = String.format("%-15s   %s - %s     %-20s",
+				homeTeamStats.getTeam().getTeamName(),
+				match.getHomeTeamScore(),
+				match.getAwayTeamScore(),
+				awayTeamStats.getTeam().getTeamName());
+		System.out.println(formattedString);
+		System.out.println("---------------------------------------------------------------");
+	}
+
 	private void updatePoints(Match match, Stats homeTeam, Stats awayTeam) {
 		homeTeam.setGamesPlayed(homeTeam.getGamesPlayed() + 1);
 		awayTeam.setGamesPlayed(awayTeam.getGamesPlayed() + 1);
@@ -148,22 +160,18 @@ public class MatchService extends ServiceManager<Match, Long> {
 		
 		matches.stream() .filter(m -> !m.isPlayed()).filter(m -> m.getMatchDate().isBefore(date.plusDays(1)))
 		       .forEach(this::playMatchNoComment);
-		
-//		matchRepository.findAll().stream().filter(m -> !(teamService.findById(m.getHomeTeamId()).get().getTeamName().equals("BAY") && teamService.findById(m.getAwayTeamId()).get().getTeamName().equals("BAY")))
-//		               .filter(m -> !m.isPlayed()).filter(m -> m.getMatchDate().isBefore(date.plusDays(1)))
-//		               .forEach(this::playMatchNoComment);
 	}
 	
 	public void playMatchNoComment(Match match) {
 		MatchEngine_NoComment.simulateMatch(match);
 		
-		Stats homeTeam = statsRepository.findById(match.getHomeTeamId()).get();
-		Stats awayTeam = statsRepository.findById(match.getAwayTeamId()).get();
+		Stats homeTeamStats = statsRepository.findById(match.getHomeTeamId()).get();
+		Stats awayTeamStats = statsRepository.findById(match.getAwayTeamId()).get();
 		
 		
-		updatePoints(match, homeTeam, awayTeam);
+		updatePoints(match, homeTeamStats, awayTeamStats);
 		match.setPlayed(true);
-		
+		displayMatchScore(homeTeamStats, match, awayTeamStats);
 		matchRepository.update(match);
 		
 	}

@@ -3,6 +3,7 @@ package com.ajwalker.gui.manager_gui;
 import com.ajwalker.controller.ManagerController;
 import com.ajwalker.entity.Manager;
 import com.ajwalker.entity.Player;
+import com.ajwalker.model.ManagerModel;
 import com.ajwalker.model.TeamModel;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ManagerDashboard {
 		printMenuOptions(starSize,
 		                 "Display My Team",
 		                 "Manage Players",
-						 "Manager Profile",
+						 "Show Profile",
 		                 "Logout",
 		                 "Return To Main Menu");
 		return managerDashboardMenuOptions(getIntUserInput("Select: "));
@@ -53,6 +54,7 @@ public class ManagerDashboard {
 				break;
 			}
 			case 3:{
+				new ManagerModel(manager).displayManager();
 				break;
 			}
 			case 4:{ // Logout

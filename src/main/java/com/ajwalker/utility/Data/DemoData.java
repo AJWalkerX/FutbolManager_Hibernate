@@ -19,8 +19,8 @@ import java.util.Random;
 
 public class DemoData {
 
-    private static Long minimumSalaryIndex = 35_000L;
-    private static Long maximumSalaryIndex = 45_000L;
+    private static Long minimumSalaryIndex = 15_000L;
+    private static Long maximumSalaryIndex = 25_000L;
     private static Long minimumValueIndex = 95_000L;
     private static Long maximumValueIndex = 105_000L;
     private static Long youngStarPlayerBonusValue = 10_000_000L;

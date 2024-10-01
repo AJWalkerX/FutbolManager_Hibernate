@@ -9,6 +9,7 @@ import com.ajwalker.entity.Player;
 import com.ajwalker.entity.TransferOffer;
 import com.ajwalker.model.OffersModel;
 import com.ajwalker.model.PlayerModel;
+import com.ajwalker.repository.TransferRepository;
 import com.ajwalker.service.ContractOfferService;
 import com.ajwalker.service.TransferOfferService;
 import com.ajwalker.service.TransferService;
@@ -52,6 +53,7 @@ public class ManagePlayers {
                 "Display offers for my team",
                 "Make contract offer for player",
                 "Display my previous offers",
+                "Display my Transfer history",
                 "Return To Dashboard");
         return managePlayersMenuOptions(getIntUserInput("Select: "));
     }
@@ -88,9 +90,13 @@ public class ManagePlayers {
                         TransferService.getInstance().finalizeTransfer(contractOffer);
                     }
                 }
+                else{
+                    System.out.println("No Accepted offers! Your offers are on wait");
+                }
                 break;
 
             }
+
             case 4: {
                 List<TransferOffer> previousOffers =
                         recievedOffers.stream().filter(offer ->
@@ -101,9 +107,27 @@ public class ManagePlayers {
                 if (!recievedOffers.isEmpty()) {
                     selectRecieved(previousOffers);
                 }
+                else{
+                    System.out.println("No received offers");
+                }
                 break;
             }
-            case 5: {// Exit..
+            case 5: {
+                AtomicInteger counter = new AtomicInteger(1);
+                TransferRepository.getInstance().findAll().stream()
+                        .filter(transfer -> transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam()) ||
+                                transfer.getContractOffer().getTransferOffer().getReceiver().equals(manager.getTeam()))
+                        .forEach(transfer -> {
+                            System.out.print(counter.getAndIncrement() + "- ");
+                            String formattedString = String.format("%-15s  %s  %s",
+                                    transfer.getContractOffer().getTransferOffer().getPlayer().getName(),
+                                    transfer.getContractOffer().getTransferOffer().getBiddingMoney(),
+                                    transfer.getContractOffer().getTransferOffer().getProposer().equals(manager.getTeam())? "BOUGHT" : "SOLD");
+                            System.out.println(formattedString);
+                        });
+                break;
+            }
+            case 6: {// Exit..
                 return false;
             }
         }
@@ -184,7 +208,12 @@ public class ManagePlayers {
         if (!playerList.isEmpty()) {
             AtomicInteger sayac = new AtomicInteger(1);
             playerList.stream().forEach(p -> {
-                System.out.println(sayac.getAndIncrement() + " - " + p.getName() + "\t\t" + p.getSkillLevel() + "\t" + p.getPosition());
+                System.out.print(sayac.getAndIncrement() + "- ");
+                String formattedString = String.format("%-15s   %s  %s",
+                        p.getName(),
+                        p.getSkillLevel(),
+                        p.getPosition());
+                System.out.println(formattedString);
             });
             int intUserInput = getIntUserInput("Pick a player to offer: ");
             return playerList.get(intUserInput - 1);
@@ -204,7 +233,7 @@ public class ManagePlayers {
                 .toList();
         int counter = 0;
         for(TransferOffer offer : list){
-            System.out.println(++counter + " : " + offer.getResponse());
+            System.out.println(++counter + " : " + offer.getPlayer().getName() + " - " +  offer.getResponse());
         }
         int selection = getIntUserInput("Select offer to continue:");
         if(selection>0 && selection<=list.size()){

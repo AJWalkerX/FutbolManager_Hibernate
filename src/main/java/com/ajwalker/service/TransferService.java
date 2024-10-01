@@ -31,7 +31,7 @@ public class TransferService extends ServiceManager<Transfer, Long> {
         Player player = transfer.getContractOffer().getTransferOffer().getPlayer();
         Team newTeamOfPlayer = transfer.getContractOffer().getTransferOffer().getProposer();
         Team oldTeamOfPlayer = transfer.getContractOffer().getTransferOffer().getReceiver();
-        System.out.println(player.getName() + " has joined to " + newTeamOfPlayer + " from " + oldTeamOfPlayer);
+        System.out.println(player.getName() + " has joined to " + newTeamOfPlayer.getTeamName() + " from " + oldTeamOfPlayer.getTeamName());
 
 
         Long biddingMoney = contractOffer.getTransferOffer().getBiddingMoney();
