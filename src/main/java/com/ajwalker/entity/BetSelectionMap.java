@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -21,4 +23,5 @@ public class BetSelectionMap extends BaseEntity{
     private Long bet_id;
     private Long betOdds_id;
     private EOddSelection oddSelection;
+    private BigDecimal betOdd;
 }

@@ -22,4 +22,6 @@ public class Season extends BaseEntity {
 
     private LocalDate BEGINNING_OF_SEASON;
     private LocalDate currentDate = BEGINNING_OF_SEASON;
+
+    //
 }

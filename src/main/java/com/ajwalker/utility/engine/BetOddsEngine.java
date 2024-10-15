@@ -26,7 +26,7 @@ public class BetOddsEngine {
         BetOdds betOdds = BetOdds.builder().match(match).build();
         BigDecimal homeTeamWins = BigDecimal.valueOf(calculateHomeTeamWinOdd(homeTeamPower, awayTeamPower));
         BigDecimal awayTeamWins = BigDecimal.valueOf(calculateAwayTeamWinOdd(awayTeamPower, homeTeamPower));
-        Double drawDouble = ((homeTeamWins.doubleValue()+awayTeamWins.doubleValue())/2)+ random.nextDouble(0.12);//random standart sapma için
+        double drawDouble = ((homeTeamWins.doubleValue()+awayTeamWins.doubleValue())/2)+ random.nextDouble(0.12);//random standart sapma için
         BigDecimal draw = BigDecimal.valueOf(drawDouble);
         BigDecimal totalGoals3OrMore = BigDecimal.valueOf(calculate3GoalsOrAboveOdd());
         BigDecimal totalGoals2OrLess = BigDecimal.valueOf(calculate2GoalsOrBeloveOdd());

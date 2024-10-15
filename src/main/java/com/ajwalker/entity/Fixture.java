@@ -37,3 +37,4 @@ public class Fixture extends BaseEntity {
         return Objects.hash(super.hashCode(), id, description); //Burda ne yaptığını ANLA!!!!
     }
 }
+//

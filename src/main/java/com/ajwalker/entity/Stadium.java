@@ -22,3 +22,4 @@ public class Stadium extends BaseEntity {
     private String location;
     private Integer capacity;
 }
+//

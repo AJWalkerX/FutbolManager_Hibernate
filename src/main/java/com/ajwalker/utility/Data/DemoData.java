@@ -266,7 +266,7 @@ public class DemoData {
 
     private static void createGambler(){
         Gambler gambler1 = Gambler.builder().name("Ezel Bayraktar").accountBalance(25_000.00).username("ezel")
-                .password("1234").age(43).build();
+                .password("1234").age(43).betList(new ArrayList<>()).build();
         GamblerRepository.getInstance().save(gambler1);
     }
 
