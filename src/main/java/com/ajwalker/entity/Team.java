@@ -21,6 +21,7 @@ public class Team  extends BaseEntity{
     private String teamName;
     private Long budget;
 
+
     @OneToOne
     @JoinColumn(nullable = false)
     private Stadium stadium;

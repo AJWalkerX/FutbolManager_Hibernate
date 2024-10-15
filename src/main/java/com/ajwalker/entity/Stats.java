@@ -31,3 +31,4 @@ public class Stats extends BaseEntity{
     @OneToOne
     private Team team;
 }
+//

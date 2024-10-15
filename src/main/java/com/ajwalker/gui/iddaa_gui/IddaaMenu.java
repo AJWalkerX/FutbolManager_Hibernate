@@ -1,9 +1,12 @@
 package com.ajwalker.gui.iddaa_gui;
 
 import com.ajwalker.entity.*;
+import com.ajwalker.model.BetModel;
 import com.ajwalker.model.BetOddsModel;
+import com.ajwalker.model.GamblerModel;
 import com.ajwalker.repository.GamblerRepository;
 import com.ajwalker.service.BetOddsService;
+import com.ajwalker.service.BetSelectionService;
 import com.ajwalker.service.BetService;
 import com.ajwalker.service.MatchService;
 import com.ajwalker.utility.enums.EBetState;
@@ -20,8 +23,11 @@ public class IddaaMenu {
     private MatchService matchService = MatchService.getInstance();
     private BetOddsService betOddsService = BetOddsService.getInstance();
     private BetService betService = BetService.getInstance();
+    private BetSelectionService betSelectionService = BetSelectionService.getInstance();
+
     private Bet bet;
     private Map<BetOdds, EOddSelection> selectionMap;
+
 
     public void iddaaMenu() {
         boolean opt = true;
@@ -38,7 +44,8 @@ public class IddaaMenu {
 
     private boolean loginRegisterMenuOptions(int userInput) {
         bet = Bet.builder()
-                .betState(EBetState.ON_WAIT).totalBetOdd(BigDecimal.valueOf(1.0)).build();
+                .betState(EBetState.ON_WAIT).totalBetOdd(BigDecimal.valueOf(1.0))
+                .build();
         selectionMap = new HashMap<>();
 
         switch (userInput) {
@@ -70,7 +77,7 @@ public class IddaaMenu {
 
         printMenuOptions("Add a match to your bet",
                 "Preview your current bet",
-                "Complete your bet",
+                "Place your bet",
                 "List my previous bets",
                 "Return To Main Menu");
         int selection = getIntUserInput("Selection:");
@@ -81,15 +88,15 @@ public class IddaaMenu {
                 oynaKazanMenu();
                 break;
             case 2:
-                System.out.println("Toplam oran: "+bet.getTotalBetOdd());
-                //BetModel -> displayCurrentBet oluşturulacak.
+                new BetModel(bet,selectionMap).displayMyBet();
                 oynaKazanMenu();
                     break;
             case 3:
-                //Kumarbazın kuponu finishlemesi için
+                placeBet();
+                oynaKazanMenu();
                 break;
             case 4:
-                //kumarbazın geçmiş kuponlarını listele
+                new GamblerModel(gambler).displayMyPreviousBets();
                 oynaKazanMenu();
                 break;
         }
@@ -118,6 +125,33 @@ public class IddaaMenu {
         new BetOddsModel(betOdds).displayBetOdd();
         int selection = getIntUserInput("Selection:");
         betService.addOddsToBet(bet, betOdds, selection,selectionMap);
+    }
+
+    private void placeBet(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter an amount to bet: ");
+        Double amountToBet = sc.nextDouble();
+        sc.nextLine();
+        if(amountToBet>0 && gambler.getAccountBalance()>amountToBet){
+            bet.setBetAmount(BigDecimal.valueOf(amountToBet));
+            betService.save(bet);
+           selectionMap.forEach((k,v)->{
+               BigDecimal betOdd = betService.getSelectedBetOdd(k,v);
+               BetSelectionMap bsm = BetSelectionMap.builder()
+                       .bet_id(bet.getId())
+                       .betOdd(betOdd)
+                       .betOdds_id(k.getId())
+                       .oddSelection(v)
+                       .build();
+               betSelectionService.save(bsm);
+           });
+           gambler.getBetList().add(bet);
+            System.out.println("You have successfully placed your bet!");
+            new BetModel(bet,selectionMap).displayMyBet();
+            bet = Bet.builder()
+                    .betState(EBetState.ON_WAIT).totalBetOdd(BigDecimal.valueOf(1.0)).build();
+
+        }
     }
 
 

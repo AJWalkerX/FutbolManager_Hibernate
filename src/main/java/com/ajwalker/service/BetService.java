@@ -37,7 +37,7 @@ public class BetService extends ServiceManager<Bet, Long> {
     public void addOddsToBet(Bet bet, BetOdds betOdds, int selection, Map<BetOdds, EOddSelection> selectionMap) {
         BigDecimal oldValue = bet.getTotalBetOdd();
         if (selectionMap.containsKey(betOdds)) {
-            undoTotalBetOdd(bet,betOdds,selectionMap.get(betOdds));
+            undoTotalBetOdd(bet, betOdds, selectionMap.get(betOdds));
         }
         switch (selection) {
             case 1:
@@ -94,6 +94,23 @@ public class BetService extends ServiceManager<Bet, Long> {
                         .divide(betOdds.getTotalGoalsEqual2OrLess(), 2, BigDecimal.ROUND_HALF_UP));
 
         }
+    }
+
+    public BigDecimal getSelectedBetOdd(BetOdds betOdds, EOddSelection selection) {
+        switch (selection) {
+            case HOME_TEAM_WINS:
+                return betOdds.getHomeTeamWins();
+            case AWAY_TEAM_WINS:
+                return betOdds.getAwayTeamWins();
+            case DRAW:
+                return betOdds.getDraw();
+            case UST:
+                return betOdds.getTotalGoalsEqual3OrMore();
+            case ALT:
+                return betOdds.getTotalGoalsEqual2OrLess();
+        }
+        System.out.println("404...");
+        return BigDecimal.ONE;
     }
 
 
